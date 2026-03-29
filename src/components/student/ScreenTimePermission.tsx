@@ -47,8 +47,7 @@ const ScreenTimePermission = ({ onComplete }: ScreenTimePermissionProps) => {
             </h1>
 
             <p className="text-muted-foreground text-base text-center max-w-xs mb-8">
-              Fócas uses Apple's FamilyControls to block distracting apps during
-              your focus sessions. We never see which apps you use.
+              Ask your parent or guardian to help you set this up. Fócas uses Apple's FamilyControls to block distracting apps during focus sessions. We never see which apps you use.
             </p>
 
             <div className="w-full max-w-sm space-y-3 mb-12">

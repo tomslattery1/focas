@@ -34,8 +34,8 @@ export const SchoolModeToggle = ({ isActive, onToggle }: SchoolModeToggleProps) 
   const [codeType, setCodeType] = useState<'teacher' | 'guardian'>('teacher');
   const [holdProgress, setHoldProgress] = useState(0);
   const [isHolding, setIsHolding] = useState(false);
-  const holdTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const holdTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const progressIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const { notifyParent } = useApp();
   const { formattedTimeRemaining, isBreakTime, currentPeriod, schoolEndTime, isOutsideSchoolHours } = useSchoolModeTimer(isActive);
   

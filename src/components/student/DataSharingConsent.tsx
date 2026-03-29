@@ -61,20 +61,37 @@ const DataSharingConsent = ({ onConsent, onDecline }: DataSharingConsentProps) =
             Sharing Preferences
           </h1>
           <p className="text-muted-foreground text-sm max-w-xs mx-auto">
-            Choose whether your teacher can see if your Fócas session is on or off. No other data is shared.
+            Choose who can see if your Fócas session is on or off. No other data is ever shared.
           </p>
         </div>
 
-        {/* Teacher sharing toggle */}
-        <div className="max-w-sm mx-auto w-full space-y-6 flex-1">
-          <div className="p-5 rounded-2xl border bg-card flex items-center gap-4">
+        {/* Guardian sharing toggle (primary) */}
+        <div className="max-w-sm mx-auto w-full space-y-4 flex-1">
+          <div className="p-5 rounded-2xl border-2 border-primary/30 bg-card flex items-center gap-4">
             <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-              <Users className="w-5 h-5 text-primary" />
+              <Shield className="w-5 h-5 text-primary" />
             </div>
             <div className="flex-1">
-              <p className="font-medium text-foreground text-sm">Share status with teacher</p>
+              <p className="font-medium text-foreground text-sm">Share with parent / guardian</p>
               <p className="text-xs text-muted-foreground mt-0.5">
-                Your teacher sees only on/off — never your apps or data
+                Your parent or guardian sees only on/off — never your apps or data
+              </p>
+            </div>
+            <Switch
+              checked={shareWithGuardian}
+              onCheckedChange={setShareWithGuardian}
+            />
+          </div>
+
+          {/* Teacher sharing toggle (secondary) */}
+          <div className="p-5 rounded-2xl border bg-card flex items-center gap-4">
+            <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center shrink-0">
+              <Users className="w-5 h-5 text-muted-foreground" />
+            </div>
+            <div className="flex-1">
+              <p className="font-medium text-foreground text-sm">Share with teacher</p>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Your teacher sees only on/off during school hours
               </p>
             </div>
             <Switch

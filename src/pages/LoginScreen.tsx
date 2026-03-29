@@ -242,7 +242,7 @@ const LoginScreen = ({ onLogin, userRole }: LoginScreenProps) => {
 
         {/* Footer note */}
         <p className="text-center text-xs text-muted-foreground mt-8">
-          Login is managed by your school administration
+          Ask your parent or guardian if you need help signing in
         </p>
 
         {/* Demo credentials for Apple review */}
