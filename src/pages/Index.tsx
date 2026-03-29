@@ -36,12 +36,12 @@ const Index = () => {
   const handleDataConsent = (consents: ConsentChoices) => {
     updateStudentConsent({
       shareStatusWithTeachers: consents.shareStatusWithTeachers,
-      shareStatusWithGuardians: false,
-      allowEncouragementMessages: false,
+      shareStatusWithGuardians: consents.shareStatusWithGuardians,
+      allowEncouragementMessages: consents.allowEncouragementMessages,
       acceptTermsAndPrivacy: consents.acceptTermsAndPrivacy,
       consentTimestamp: new Date().toISOString(),
     });
-    setHasOptedInToShare(consents.shareStatusWithTeachers);
+    setHasOptedInToShare(consents.shareStatusWithGuardians || consents.shareStatusWithTeachers);
     setOnboardingStep('login');
   };
 
