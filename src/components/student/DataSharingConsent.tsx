@@ -23,12 +23,12 @@ export interface ConsentChoices {
 /**
  * Simplified sharing consent — MVP asks:
  * 1. Share focus status (on/off) with your parent/guardian? (toggle)
- * 2. Share focus status (on/off) with your teacher? (toggle)
+ * 2. Allow school to see class focus status? (toggle, off by default)
  * 3. Accept Terms & Privacy (required)
  */
 const DataSharingConsent = ({ onConsent, onDecline }: DataSharingConsentProps) => {
   const [shareWithGuardian, setShareWithGuardian] = useState(true);
-  const [shareWithTeacher, setShareWithTeacher] = useState(true);
+  const [shareWithSchool, setShareWithSchool] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [error, setError] = useState('');
 
