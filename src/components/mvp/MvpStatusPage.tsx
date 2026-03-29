@@ -156,8 +156,8 @@ const MvpStatusPage = () => {
           />
           <PhaseAnnotation
             phase="phase2"
-            title="Teacher Notifications"
-            description="Real-time encouragement messages and focus recommendations from teachers."
+            title="School Integration"
+            description="If enabled by your school, your class focus status may be visible at a school level."
           />
           <PhaseAnnotation
             phase="phase3"
