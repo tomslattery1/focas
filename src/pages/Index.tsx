@@ -52,7 +52,7 @@ const Index = () => {
       acceptTermsAndPrivacy: consents.acceptTermsAndPrivacy,
       consentTimestamp: new Date().toISOString(),
     });
-    setHasOptedInToShare(consents.shareStatusWithGuardians || consents.shareStatusWithTeachers);
+    setHasOptedInToShare(consents.shareStatusWithGuardians);
     setOnboardingStep('login');
   };
 

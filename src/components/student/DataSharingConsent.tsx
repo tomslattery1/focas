@@ -23,12 +23,12 @@ export interface ConsentChoices {
 /**
  * Simplified sharing consent — MVP asks:
  * 1. Share focus status (on/off) with your parent/guardian? (toggle)
- * 2. Share focus status (on/off) with your teacher? (toggle)
+ * 2. Allow school to see class focus status? (toggle, off by default)
  * 3. Accept Terms & Privacy (required)
  */
 const DataSharingConsent = ({ onConsent, onDecline }: DataSharingConsentProps) => {
   const [shareWithGuardian, setShareWithGuardian] = useState(true);
-  const [shareWithTeacher, setShareWithTeacher] = useState(true);
+  const [shareWithSchool, setShareWithSchool] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [error, setError] = useState('');
 
@@ -38,7 +38,7 @@ const DataSharingConsent = ({ onConsent, onDecline }: DataSharingConsentProps) =
       return;
     }
     onConsent({
-      shareStatusWithTeachers: shareWithTeacher,
+      shareStatusWithTeachers: shareWithSchool,
       shareStatusWithGuardians: shareWithGuardian,
       allowEncouragementMessages: shareWithGuardian,
       acceptTermsAndPrivacy: true,
@@ -83,20 +83,20 @@ const DataSharingConsent = ({ onConsent, onDecline }: DataSharingConsentProps) =
             />
           </div>
 
-          {/* Teacher sharing toggle (secondary) */}
+          {/* School sharing toggle (optional) */}
           <div className="p-5 rounded-2xl border bg-card flex items-center gap-4">
             <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center shrink-0">
               <Users className="w-5 h-5 text-muted-foreground" />
             </div>
             <div className="flex-1">
-              <p className="font-medium text-foreground text-sm">Share with teacher</p>
+              <p className="font-medium text-foreground text-sm">School visibility</p>
               <p className="text-xs text-muted-foreground mt-0.5">
-                Your teacher sees only on/off during school hours
+                Your school may see that your class is in focus mode — never your apps or data
               </p>
             </div>
             <Switch
-              checked={shareWithTeacher}
-              onCheckedChange={setShareWithTeacher}
+              checked={shareWithSchool}
+              onCheckedChange={setShareWithSchool}
             />
           </div>
 
