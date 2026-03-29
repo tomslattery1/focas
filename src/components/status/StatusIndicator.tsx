@@ -46,8 +46,8 @@ export const StatusIndicator = ({ status, isActive, size = 'lg', onActivate }: S
   const Icon = isActive ? config.icon : Shield;
   const [holdProgress, setHoldProgress] = useState(0);
   const [isHolding, setIsHolding] = useState(false);
-  const holdTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const holdTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const progressIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const sizeClasses = size === 'lg' 
     ? 'w-40 h-40' 

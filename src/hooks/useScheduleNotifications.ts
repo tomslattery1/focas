@@ -128,7 +128,7 @@ export const useScheduleNotifications = (
   const [pendingSession, setPendingSession] = useState<PendingSession | null>(null);
   const [hasNotificationPermission, setHasNotificationPermission] = useState(false);
   const [demoDismissed, setDemoDismissed] = useState(false);
-  const reminderIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const reminderIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const lastNotifiedScheduleRef = useRef<string | null>(null);
 
   // Request notification permission on mount

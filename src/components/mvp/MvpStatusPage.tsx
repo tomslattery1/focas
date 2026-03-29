@@ -161,8 +161,8 @@ const MvpStatusPage = () => {
           />
           <PhaseAnnotation
             phase="phase3"
-            title="Parent Dashboard"
-            description="Guardian portal with focus reports and encouragement messaging."
+            title="Guardian Dashboard"
+            description="Your parent or guardian can view focus reports and send encouragement."
           />
         </motion.div>
       </div>

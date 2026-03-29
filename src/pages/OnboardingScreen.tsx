@@ -11,9 +11,9 @@ const slides = [
   {
     id: 1,
     icon: Focus,
-    title: 'Stay focused at school',
+    title: 'Focus together',
     description:
-      'Fócas blocks distracting apps during your study sessions so you can concentrate on what matters.',
+      'Set up Fócas with your parent or guardian. It blocks distracting apps during study time so you can stay on track.',
     color: 'bg-primary/10',
     iconColor: 'text-primary',
   },
@@ -22,16 +22,16 @@ const slides = [
     icon: Shield,
     title: 'Built on trust, not surveillance',
     description:
-      'You start and stop sessions yourself. We never inspect your phone or access your personal data.',
+      'You and your parent choose what works. You control your sessions — we never inspect your phone or access personal data.',
     color: 'bg-[hsl(var(--status-green))]/10',
     iconColor: 'text-[hsl(var(--status-green))]',
   },
   {
     id: 3,
     icon: BarChart3,
-    title: 'See your progress',
+    title: 'Your family sees your progress',
     description:
-      'View your focus time today and this week. Watch your streaks grow as you build better habits.',
+      'Share your focus streaks with your parent or guardian. Celebrate wins together as you build better habits.',
     color: 'bg-primary/10',
     iconColor: 'text-primary',
   },
