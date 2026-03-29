@@ -62,7 +62,7 @@ const ParentalConsentRequired = ({ onBack }: ParentalConsentRequiredProps) => {
               School Enrollment
             </h3>
             <p className="text-sm text-muted-foreground">
-              If your school enrolled you in Fócas, your parent/guardian should have received consent information. Check with your teacher or school office.
+              If your school enrolled you in Fócas, your parent or guardian should have received consent information. Check with your parent or school office.
             </p>
           </div>
 
