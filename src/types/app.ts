@@ -5,7 +5,7 @@ export type ComplianceStatus = FocusStatus;
 
 export type UserRole = 'student' | 'parent' | 'teacher' | 'admin' | null;
 
-export type OnboardingStep = 'splash' | 'role' | 'age-verification' | 'parental-consent' | 'data-consent' | 'screentime' | 'onboarding' | 'login' | 'info' | 'complete';
+export type OnboardingStep = 'splash' | 'role' | 'age-verification' | 'parental-consent' | 'data-consent' | 'screentime' | 'guardian-invite' | 'onboarding' | 'login' | 'info' | 'complete';
 
 export type AgeGroup = 'under13' | '13to17' | '18plus' | null;
 
