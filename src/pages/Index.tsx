@@ -5,10 +5,12 @@ import LoginScreen from './LoginScreen';
 import MvpStatusPage from '@/components/mvp/MvpStatusPage';
 import DataSharingConsent, { ConsentChoices } from '@/components/student/DataSharingConsent';
 import ScreenTimePermission from '@/components/student/ScreenTimePermission';
+import GuardianInvite from '@/components/student/GuardianInvite';
+import { toast } from 'sonner';
 
 /**
  * MVP Index — Student-only flow
- * Splash → Onboarding slides → FamilyControls → Sharing consent → Login → Home
+ * Splash → Onboarding slides → FamilyControls → Guardian invite → Sharing consent → Login → Home
  */
 const Index = () => {
   const {
@@ -30,6 +32,15 @@ const Index = () => {
   };
 
   const handleScreenTimeComplete = () => {
+    setOnboardingStep('guardian-invite');
+  };
+
+  const handleGuardianInvite = (guardian: { method: 'email' | 'phone'; value: string } | null) => {
+    if (guardian) {
+      toast.success('Invite sent!', {
+        description: `We'll invite your guardian via ${guardian.method}.`,
+      });
+    }
     setOnboardingStep('data-consent');
   };
 
@@ -63,6 +74,9 @@ const Index = () => {
 
     case 'screentime':
       return <ScreenTimePermission onComplete={handleScreenTimeComplete} />;
+
+    case 'guardian-invite':
+      return <GuardianInvite onComplete={handleGuardianInvite} />;
 
     case 'data-consent':
       return (
