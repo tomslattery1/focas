@@ -31,6 +31,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/stats" element={<MvpStatsPage />} />
               <Route path="/schedule" element={<MvpSchedulePage />} />
+              <Route path="/achievements" element={<AchievementsPage />} />
               <Route path="/settings" element={<MvpSettingsPage />} />
 
               {/* Legal */}
