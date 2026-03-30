@@ -27,6 +27,12 @@ const MvpStatusPage = () => {
     currentClass,
     todayStats,
   } = useApp();
+  const { state: gamification, completeSession, updateFocusScore } = useGamification();
+
+  // Compute live focus score from today's stats
+  const liveScore = todayStats.totalMinutes > 0
+    ? Math.round((todayStats.compliantMinutes / todayStats.totalMinutes) * 100)
+    : 0;
 
   const formatTime = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
