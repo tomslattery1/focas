@@ -2,7 +2,8 @@ import { MobileLayout } from '@/components/layout/MobileLayout';
 import { StatusIndicator } from '@/components/status/StatusIndicator';
 import { PhaseAnnotation } from './PhaseAnnotation';
 import { useApp } from '@/contexts/AppContext';
-import { Clock, BookOpen, Power, Shield } from 'lucide-react';
+import { useGamification } from '@/contexts/GamificationContext';
+import { Clock, BookOpen, Power, Shield, Flame, Target } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 
