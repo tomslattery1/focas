@@ -2,7 +2,8 @@ import { MobileLayout } from '@/components/layout/MobileLayout';
 import { StatusIndicator } from '@/components/status/StatusIndicator';
 import { PhaseAnnotation } from './PhaseAnnotation';
 import { useApp } from '@/contexts/AppContext';
-import { Clock, BookOpen, Power, Shield } from 'lucide-react';
+import { useGamification } from '@/contexts/GamificationContext';
+import { Clock, BookOpen, Power, Shield, Flame, Target } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 
@@ -26,6 +27,12 @@ const MvpStatusPage = () => {
     currentClass,
     todayStats,
   } = useApp();
+  const { state: gamification, completeSession, updateFocusScore } = useGamification();
+
+  // Compute live focus score from today's stats
+  const liveScore = todayStats.totalMinutes > 0
+    ? Math.round((todayStats.compliantMinutes / todayStats.totalMinutes) * 100)
+    : 0;
 
   const formatTime = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
@@ -36,6 +43,12 @@ const MvpStatusPage = () => {
   const toggleSession = () => {
     const next = !isFocasModeActive;
     setFocasModeActive(next);
+    if (!next) {
+      // Session ended — record it
+      completeSession(liveScore);
+    } else {
+      updateFocusScore(liveScore);
+    }
     toast.success(next ? 'Fócas session started' : 'Fócas session ended', {
       description: next
         ? 'Distracting apps are now blocked.'
@@ -47,14 +60,36 @@ const MvpStatusPage = () => {
     <MobileLayout>
       <div className="px-5 pt-14 pb-6">
 
-        {/* Status ring */}
-        <div className="flex justify-center mb-8">
-          <StatusIndicator
-            status={focusStatus}
-            isActive={isFocasModeActive}
-            size="lg"
-          />
-        </div>
+        {/* Focus Score Hero */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="flex flex-col items-center mb-6"
+        >
+          <div className="relative flex items-center justify-center mb-3">
+            <StatusIndicator
+              status={focusStatus}
+              isActive={isFocasModeActive}
+              size="lg"
+            />
+            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+              <span className="text-3xl font-bold text-foreground">{liveScore}%</span>
+              <span className="text-[10px] text-muted-foreground font-medium">Focus Score</span>
+            </div>
+          </div>
+
+          {/* Streak + Goal row */}
+          <div className="flex items-center gap-4 mt-2">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[hsl(var(--status-amber-light))] border border-[hsl(var(--status-amber)/0.2)]">
+              <Flame className="w-3.5 h-3.5 text-[hsl(var(--status-amber))]" />
+              <span className="text-xs font-semibold text-foreground">{gamification.currentStreak} day{gamification.currentStreak !== 1 ? 's' : ''}</span>
+            </div>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[hsl(var(--status-green-light))] border border-[hsl(var(--status-green)/0.2)]">
+              <Target className="w-3.5 h-3.5 text-[hsl(var(--status-green))]" />
+              <span className="text-xs font-semibold text-foreground">Goal: {gamification.weeklyGoal.targetPercentage}%</span>
+            </div>
+          </div>
+        </motion.div>
 
         {/* Blocked categories — visible during active session */}
         {isFocasModeActive && (

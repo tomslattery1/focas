@@ -5,10 +5,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { AppProvider } from "./contexts/AppContext";
+import { GamificationProvider } from "./contexts/GamificationContext";
 import Index from "./pages/Index";
 import MvpSchedulePage from "./pages/MvpSchedulePage";
 import MvpStatsPage from "./pages/MvpStatsPage";
 import MvpSettingsPage from "./pages/MvpSettingsPage";
+import AchievementsPage from "./pages/AchievementsPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import TermsOfServicePage from "./pages/TermsOfServicePage";
 import NotFound from "./pages/NotFound";
@@ -20,6 +22,7 @@ const App = () => (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <TooltipProvider>
         <AppProvider>
+          <GamificationProvider>
           <Toaster />
           <Sonner />
           <BrowserRouter>
@@ -28,6 +31,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/stats" element={<MvpStatsPage />} />
               <Route path="/schedule" element={<MvpSchedulePage />} />
+              <Route path="/achievements" element={<AchievementsPage />} />
               <Route path="/settings" element={<MvpSettingsPage />} />
 
               {/* Legal */}
@@ -37,6 +41,7 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
+          </GamificationProvider>
         </AppProvider>
       </TooltipProvider>
     </ThemeProvider>

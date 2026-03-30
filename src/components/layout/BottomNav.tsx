@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Shield, BarChart3, Calendar, Settings } from 'lucide-react';
+import { Shield, BarChart3, Calendar, Settings, Award } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
@@ -7,6 +7,7 @@ const navItems = [
   { path: '/', icon: Shield, label: 'Fócas' },
   { path: '/schedule', icon: Calendar, label: 'Schedule' },
   { path: '/stats', icon: BarChart3, label: 'Stats' },
+  { path: '/achievements', icon: Award, label: 'Badges' },
   { path: '/settings', icon: Settings, label: 'Settings' },
 ];
 
