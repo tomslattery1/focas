@@ -43,6 +43,12 @@ const MvpStatusPage = () => {
   const toggleSession = () => {
     const next = !isFocasModeActive;
     setFocasModeActive(next);
+    if (!next) {
+      // Session ended — record it
+      completeSession(liveScore);
+    } else {
+      updateFocusScore(liveScore);
+    }
     toast.success(next ? 'Fócas session started' : 'Fócas session ended', {
       description: next
         ? 'Distracting apps are now blocked.'
