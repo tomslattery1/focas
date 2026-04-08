@@ -95,7 +95,7 @@ const MvpStatsPage = () => {
         >
           <div className="flex items-center gap-2 mb-3">
             <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">This Week</h2>
-            <PhaseBadge phase="phase2" />
+          </div>
           </div>
           <WeeklyChart stats={weekStats} />
           <p className="text-xs text-muted-foreground text-center mt-2">
