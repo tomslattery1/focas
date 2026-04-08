@@ -16,7 +16,7 @@ interface SchoolModeToggleProps {
 
 const HOLD_DURATION = 2000; // 2 seconds to activate
 
-export type DeactivationMethod = 'nfc' | 'teacher_code' | 'guardian_code';
+export type DeactivationMethod = 'teacher_code' | 'guardian_code';
 
 // Log deactivation for tracking
 const logDeactivation = (method: DeactivationMethod, studentName: string = 'Student User') => {
