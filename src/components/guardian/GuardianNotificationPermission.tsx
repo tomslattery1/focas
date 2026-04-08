@@ -47,7 +47,7 @@ const GuardianNotificationPermission = ({ onComplete }: GuardianNotificationPerm
 
             {/* Description */}
             <p className="text-muted-foreground text-base leading-relaxed max-w-xs mx-auto text-center mb-8">
-              Stay informed about your child's device activity and compliance status.
+              Get gentle updates about your child's focus sessions so you can cheer them on.
             </p>
 
             {/* Benefits list */}
@@ -56,13 +56,13 @@ const GuardianNotificationPermission = ({ onComplete }: GuardianNotificationPerm
                 <div className="w-8 h-8 rounded-full bg-status-green/20 flex items-center justify-center">
                   <Check className="w-4 h-4 text-status-green" />
                 </div>
-                <span className="text-sm text-foreground">Compliance status changes</span>
+                <span className="text-sm text-foreground">Focus session updates</span>
               </div>
               <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/50">
                 <div className="w-8 h-8 rounded-full bg-status-green/20 flex items-center justify-center">
                   <Check className="w-4 h-4 text-status-green" />
                 </div>
-                <span className="text-sm text-foreground">Study Mode activity updates</span>
+                <span className="text-sm text-foreground">Fócas Mode activity</span>
               </div>
               <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/50">
                 <div className="w-8 h-8 rounded-full bg-status-green/20 flex items-center justify-center">

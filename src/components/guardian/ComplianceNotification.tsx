@@ -48,8 +48,8 @@ export const ComplianceNotification = ({ notifications, onDismiss, onDismissAll 
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <Bell className="w-4 h-4 text-primary" />
-          <span className="text-sm font-medium">Compliance Alerts</span>
-          <span className="text-xs bg-destructive text-destructive-foreground px-2 py-0.5 rounded-full">
+          <span className="text-sm font-medium">Focus Updates</span>
+          <span className="text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded-full">
             {unreadNotifications.length}
           </span>
         </div>

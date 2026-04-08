@@ -50,16 +50,16 @@ const mockNotifications: Notification[] = [
     id: '1',
     childName: 'Aoife',
     status: 'amber',
-    message: 'Compliance dropped to warning level. Phone may have been used outside allowed apps.',
+    message: 'Aoife paused their focus session — they might need a little encouragement!',
     timestamp: new Date(Date.now() - 120000), // 2 minutes ago
     read: false,
   },
 ];
 
 const statusConfig: Record<ComplianceStatus, { icon: React.ElementType; label: string; className: string; bgClass: string }> = {
-  green: { icon: CheckCircle, label: 'Compliant', className: 'text-emerald-500', bgClass: 'bg-emerald-500/10' },
-  amber: { icon: AlertTriangle, label: 'Warning', className: 'text-amber-500', bgClass: 'bg-amber-500/10' },
-  red: { icon: XCircle, label: 'Non-compliant', className: 'text-red-500', bgClass: 'bg-red-500/10' },
+  green: { icon: CheckCircle, label: 'Focusing', className: 'text-emerald-500', bgClass: 'bg-emerald-500/10' },
+  amber: { icon: AlertTriangle, label: 'Taking a break', className: 'text-amber-500', bgClass: 'bg-amber-500/10' },
+  red: { icon: XCircle, label: 'Not started yet', className: 'text-red-500', bgClass: 'bg-red-500/10' },
 };
 
 const ParentDashboard = () => {
@@ -86,8 +86,8 @@ const ParentDashboard = () => {
           
           if (!existingNotification) {
             const message = child.status === 'red' 
-              ? 'Phone is non-compliant! Immediate attention may be required.'
-              : 'Compliance dropped to warning level. Phone may have been used outside allowed apps.';
+              ? `${child.name} hasn't started a focus session yet today.`
+              : `${child.name} paused their focus session — they might need a little encouragement!`;
             
             const newNotification: Notification = {
               id: Date.now().toString(),
@@ -100,11 +100,10 @@ const ParentDashboard = () => {
             
             setNotifications(prev => [newNotification, ...prev]);
             
-            // Show toast for immediate awareness
             toast({
-              title: `${child.name} - ${child.status === 'red' ? 'Alert!' : 'Warning'}`,
+              title: `${child.name} — Focus Update`,
               description: message,
-              variant: child.status === 'red' ? 'destructive' : 'default',
+              variant: 'default',
             });
           }
         }
@@ -169,11 +168,11 @@ const ParentDashboard = () => {
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">Children Monitored</p>
+              <p className="text-sm text-muted-foreground">Your Children</p>
               <p className="text-3xl font-bold text-primary">{children.length}</p>
             </div>
           <div className="text-right">
-              <p className="text-sm text-muted-foreground">All Compliant</p>
+              <p className="text-sm text-muted-foreground">Currently Focusing</p>
               <p className="text-2xl font-semibold">
                 {children.filter(c => c.status === 'green').length}/{children.length}
               </p>
@@ -206,7 +205,7 @@ const ParentDashboard = () => {
             <div>
               <h3 className="text-lg font-semibold mb-1">Your Children</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Monitor compliance and device status
+                Support their focus journey
               </p>
             </div>
 
@@ -245,7 +244,7 @@ const ParentDashboard = () => {
                         </div>
                         <div className="text-right">
                           <p className="text-2xl font-bold text-primary">{child.todayCompliance}%</p>
-                          <p className="text-xs text-muted-foreground">Today's Compliance</p>
+                          <p className="text-xs text-muted-foreground">Today's Focus Score</p>
                         </div>
                       </div>
 
@@ -312,18 +311,18 @@ const ParentDashboard = () => {
             <div>
               <h3 className="text-lg font-semibold mb-1">Recent Activity</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Monitor your children's compliance history
+                See how your children's focus sessions are going
               </p>
             </div>
 
             <Card>
               <CardContent className="p-4 space-y-3">
                 {[
-                  { child: 'Aoife', action: 'Study Mode ended', time: '15:30', type: 'info' },
-                  { child: 'Aoife', action: 'Compliance maintained all day', time: '15:30', type: 'success' },
-                  { child: 'Ciarán', action: 'Brief amber status (2 min)', time: '14:22', type: 'warning' },
-                  { child: 'Aoife', action: 'Study Mode started', time: '08:30', type: 'info' },
-                  { child: 'Ciarán', action: 'Study Mode started', time: '08:30', type: 'info' },
+                  { child: 'Aoife', action: 'Fócas session ended', time: '15:30', type: 'info' },
+                  { child: 'Aoife', action: 'Stayed focused all day — amazing! 🌟', time: '15:30', type: 'success' },
+                  { child: 'Ciarán', action: 'Took a short break (2 min)', time: '14:22', type: 'warning' },
+                  { child: 'Aoife', action: 'Fócas session started', time: '08:30', type: 'info' },
+                  { child: 'Ciarán', action: 'Fócas session started', time: '08:30', type: 'info' },
                 ].map((activity, index) => (
                   <motion.div
                     key={index}
