@@ -38,23 +38,6 @@ export const SchoolModeToggle = ({ isActive, onToggle }: SchoolModeToggleProps) 
   const progressIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const { notifyParent } = useApp();
   const { formattedTimeRemaining, isBreakTime, currentPeriod, schoolEndTime, isOutsideSchoolHours } = useSchoolModeTimer(isActive);
-  
-  const { isNfcSupported, isScanning, startNfcScan } = useNfcActivation(() => {
-    logDeactivation('nfc');
-    toast.success('NFC tag detected', {
-      description: 'Study Mode deactivated.',
-    });
-    notifyParent(
-      'early_exit',
-      'Your child',
-      'Deactivated Study Mode using NFC tag.'
-    );
-    onToggle();
-  });
-
-  const handleNfcDeactivate = async () => {
-    await startNfcScan();
-  };
 
   const handleCodeSuccess = (type: 'teacher' | 'guardian') => {
     const method: DeactivationMethod = type === 'teacher' ? 'teacher_code' : 'guardian_code';
