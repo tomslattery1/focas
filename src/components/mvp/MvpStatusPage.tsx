@@ -2,10 +2,12 @@ import { MobileLayout } from '@/components/layout/MobileLayout';
 import { useApp } from '@/contexts/AppContext';
 import { useGamification } from '@/contexts/GamificationContext';
 import { useSessionTimer } from '@/hooks/useSessionTimer';
-import { Clock, BookOpen, Power, Shield, Flame, Target } from 'lucide-react';
+import { Clock, BookOpen, Power, Shield, Flame, Target, Plus } from 'lucide-react';
 import { getBlockedCategories } from '@/pages/BlockedCategoriesPage';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 /**
  * MVP Home — Fócas Mode
@@ -26,6 +28,8 @@ const MvpStatusPage = () => {
   } = useApp();
   const { state: gamification, completeSession, updateFocusScore } = useGamification();
   const { todayCompliantMinutes, currentSessionMinutes, startSession, stopSession, isSessionActive } = useSessionTimer();
+  const navigate = useNavigate();
+  const [showNoCategoriesPrompt, setShowNoCategoriesPrompt] = useState(false);
 
   // Compute elapsed school minutes today (used as denominator for focus score)
   const getElapsedSchoolMinutes = (): number => {
@@ -52,6 +56,14 @@ const MvpStatusPage = () => {
 
   const toggleSession = () => {
     const next = !isFocasModeActive;
+
+    // Block starting if no categories selected
+    if (next && getBlockedCategories().length === 0) {
+      setShowNoCategoriesPrompt(true);
+      return;
+    }
+    setShowNoCategoriesPrompt(false);
+
     setFocasModeActive(next);
     if (next) {
       startSession();
@@ -126,6 +138,26 @@ const MvpStatusPage = () => {
                 {category} limited
               </span>
             ))}
+          </motion.div>
+        )}
+
+        {/* No categories prompt */}
+        {showNoCategoriesPrompt && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-4 p-4 rounded-2xl bg-primary/5 border border-primary/20"
+          >
+            <p className="text-sm text-foreground mb-3">
+              Add at least one app category to block before starting your session — even one small step counts!
+            </p>
+            <button
+              onClick={() => navigate('/settings/blocked-categories')}
+              className="flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+            >
+              <Plus className="w-4 h-4" />
+              Choose categories to block
+            </button>
           </motion.div>
         )}
 
