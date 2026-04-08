@@ -1,23 +1,89 @@
+import { useState, useEffect } from 'react';
 import { MobileLayout } from '@/components/layout/MobileLayout';
 import { ClassCard } from '@/components/schedule/ClassCard';
 import { PhaseAnnotation } from '@/components/mvp/PhaseAnnotation';
 import { useApp } from '@/contexts/AppContext';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
-import { Clock } from 'lucide-react';
+import { Clock, Pencil, School } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { SchoolCodeSetup, loadStudentSchedule, type ScheduleSlot } from '@/components/student/SchoolCodeSetup';
+import { SubjectEditor } from '@/components/student/SubjectEditor';
+import { ClassPeriod } from '@/types/app';
+
+type SetupPhase = 'view' | 'code-entry' | 'subject-edit';
+
+const slotsToClassPeriods = (slots: ScheduleSlot[]): ClassPeriod[] => {
+  const now = new Date();
+  const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+  return slots.map(slot => {
+    const [sh, sm] = slot.startTime.split(':').map(Number);
+    const [eh, em] = slot.endTime.split(':').map(Number);
+    const startMin = sh * 60 + sm;
+    const endMin = eh * 60 + em;
+    const isCurrent = currentMinutes >= startMin && currentMinutes < endMin;
+
+    return {
+      id: slot.id,
+      name: slot.subject || slot.label,
+      teacher: slot.teacher,
+      room: slot.room || (slot.type === 'break' ? '' : slot.type === 'lunch' ? 'Cafeteria' : ''),
+      startTime: slot.startTime,
+      endTime: slot.endTime,
+      isCurrent,
+    };
+  });
+};
 
 /**
- * MVP Schedule — daily timetable
- *
- * Core MVP:
- * ✅ Daily class list with current-class highlight
- * ✅ Note: school hours auto-trigger Fócas Mode (Phase 2)
- *
- * Phase 2: Auto-trigger focus mode from schedule, push notifications
+ * MVP Schedule — daily timetable with school code setup
  */
 const MvpSchedulePage = () => {
-  const { schedule } = useApp();
+  const { schedule: defaultSchedule } = useApp();
   const today = new Date();
+
+  const [savedSlots, setSavedSlots] = useState<ScheduleSlot[] | null>(loadStudentSchedule);
+  const [phase, setPhase] = useState<SetupPhase>(() => {
+    return loadStudentSchedule() ? 'view' : 'code-entry';
+  });
+
+  const displaySchedule = savedSlots ? slotsToClassPeriods(savedSlots) : defaultSchedule;
+
+  const handleCodeComplete = (slots: ScheduleSlot[]) => {
+    if (slots.length === 0) {
+      // Skipped — show default schedule
+      setPhase('view');
+      return;
+    }
+    setSavedSlots(slots);
+    setPhase('subject-edit');
+  };
+
+  const handleSubjectsComplete = (slots: ScheduleSlot[]) => {
+    setSavedSlots(slots);
+    setPhase('view');
+  };
+
+  if (phase === 'code-entry') {
+    return (
+      <MobileLayout>
+        <div className="px-5 pt-14 pb-6 flex flex-col justify-center min-h-[60vh]">
+          <SchoolCodeSetup onComplete={handleCodeComplete} />
+        </div>
+      </MobileLayout>
+    );
+  }
+
+  if (phase === 'subject-edit' && savedSlots) {
+    return (
+      <MobileLayout>
+        <div className="px-5 pt-14 pb-6">
+          <SubjectEditor slots={savedSlots} onComplete={handleSubjectsComplete} />
+        </div>
+      </MobileLayout>
+    );
+  }
 
   return (
     <MobileLayout>
@@ -25,12 +91,26 @@ const MvpSchedulePage = () => {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-6"
+          className="mb-6 flex items-start justify-between"
         >
-          <h1 className="text-2xl font-bold text-foreground">Schedule</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            {format(today, 'EEEE, MMMM d')}
-          </p>
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">Schedule</h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              {format(today, 'EEEE, MMMM d')}
+            </p>
+          </div>
+          <div className="flex gap-1">
+            {!savedSlots && (
+              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setPhase('code-entry')}>
+                <School className="w-4 h-4" />
+              </Button>
+            )}
+            {savedSlots && (
+              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setPhase('subject-edit')}>
+                <Pencil className="w-4 h-4" />
+              </Button>
+            )}
+          </div>
         </motion.div>
 
         {/* Auto-trigger hint */}
@@ -48,7 +128,7 @@ const MvpSchedulePage = () => {
 
         {/* Class list */}
         <div className="space-y-3 mb-6">
-          {schedule.map((classInfo, index) => (
+          {displaySchedule.map((classInfo, index) => (
             <motion.div
               key={classInfo.id}
               initial={{ opacity: 0, y: 20 }}
@@ -71,11 +151,6 @@ const MvpSchedulePage = () => {
             phase="phase2"
             title="Enhanced Schedule Sync"
             description="Real-time schedule updates with push notifications for timetable changes and room swaps."
-          />
-          <PhaseAnnotation
-            phase="phase2"
-            title="Schedule Sync"
-            description="Real-time updates from school timetable system including room and teacher changes."
           />
         </motion.div>
       </div>
