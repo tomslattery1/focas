@@ -1,6 +1,6 @@
 import { MobileLayout } from '@/components/layout/MobileLayout';
 import { PhaseAnnotation } from '@/components/mvp/PhaseAnnotation';
-import { SchoolSupervisionNotice } from '@/components/mvp/SchoolSupervisionNotice';
+
 import { useApp } from '@/contexts/AppContext';
 import { motion } from 'framer-motion';
 import {
@@ -34,9 +34,6 @@ const MvpSettingsPage = () => {
           <h1 className="text-2xl font-bold text-foreground">Settings</h1>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-6">
-          <SchoolSupervisionNotice variant="compact" schoolName={schoolSettings.schoolName} />
-        </motion.div>
 
         {/* Profile */}
         <motion.div
