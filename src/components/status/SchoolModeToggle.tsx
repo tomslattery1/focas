@@ -1,10 +1,9 @@
 import { useState, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Power, Nfc, KeyRound, Timer, Coffee, Home, ShieldCheck } from 'lucide-react';
+import { Power, KeyRound, Timer, Coffee, Home, ShieldCheck } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ClassCodeDialog } from '@/components/student/ClassCodeDialog';
-import { useNfcActivation } from '@/hooks/useNfcActivation';
 import { useSchoolModeTimer } from '@/hooks/useSchoolModeTimer';
 import { useApp } from '@/contexts/AppContext';
 import { toast } from 'sonner';
@@ -16,7 +15,7 @@ interface SchoolModeToggleProps {
 
 const HOLD_DURATION = 2000; // 2 seconds to activate
 
-export type DeactivationMethod = 'nfc' | 'teacher_code' | 'guardian_code';
+export type DeactivationMethod = 'teacher_code' | 'guardian_code';
 
 // Log deactivation for tracking
 const logDeactivation = (method: DeactivationMethod, studentName: string = 'Student User') => {
@@ -38,23 +37,6 @@ export const SchoolModeToggle = ({ isActive, onToggle }: SchoolModeToggleProps) 
   const progressIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const { notifyParent } = useApp();
   const { formattedTimeRemaining, isBreakTime, currentPeriod, schoolEndTime, isOutsideSchoolHours } = useSchoolModeTimer(isActive);
-  
-  const { isNfcSupported, isScanning, startNfcScan } = useNfcActivation(() => {
-    logDeactivation('nfc');
-    toast.success('NFC tag detected', {
-      description: 'Study Mode deactivated.',
-    });
-    notifyParent(
-      'early_exit',
-      'Your child',
-      'Deactivated Study Mode using NFC tag.'
-    );
-    onToggle();
-  });
-
-  const handleNfcDeactivate = async () => {
-    await startNfcScan();
-  };
 
   const handleCodeSuccess = (type: 'teacher' | 'guardian') => {
     const method: DeactivationMethod = type === 'teacher' ? 'teacher_code' : 'guardian_code';
@@ -188,35 +170,11 @@ export const SchoolModeToggle = ({ isActive, onToggle }: SchoolModeToggleProps) 
           </div>
         )}
 
-        {/* Deactivation options - NFC or Code only (no hold button) */}
+        {/* Deactivation options */}
         <div className="space-y-2">
           <p className="text-xs font-medium text-muted-foreground text-center uppercase tracking-wide">
             Deactivation Options
           </p>
-          
-          {/* NFC Option */}
-          <Button
-            variant="outline"
-            onClick={handleNfcDeactivate}
-            disabled={isScanning}
-            className={cn(
-              "w-full h-auto py-4 flex items-center justify-center gap-3 rounded-xl border-destructive/30 hover:border-destructive/50 hover:bg-destructive/5",
-              isScanning && "border-primary bg-primary/5"
-            )}
-          >
-            <Nfc className={cn(
-              "w-6 h-6",
-              isScanning ? "text-primary animate-pulse" : "text-destructive/70"
-            )} />
-            <div className="text-left">
-              <span className="text-sm font-medium block">
-                {isScanning ? 'Scanning...' : 'Tap NFC to Deactivate'}
-              </span>
-              <span className="text-xs text-muted-foreground">
-                {!isNfcSupported ? 'NFC not available' : 'Use NFC tag'}
-              </span>
-            </div>
-          </Button>
 
           {/* Code Options - side by side */}
           <div className="grid grid-cols-2 gap-3">

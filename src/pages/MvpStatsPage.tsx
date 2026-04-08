@@ -1,7 +1,6 @@
 import { MobileLayout } from '@/components/layout/MobileLayout';
 import { StatsCard } from '@/components/stats/StatsCard';
 import { WeeklyChart } from '@/components/stats/WeeklyChart';
-import { PhaseAnnotation, PhaseBadge } from '@/components/mvp/PhaseAnnotation';
 import { useApp } from '@/contexts/AppContext';
 import { Clock, TrendingUp, Award, Target } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -93,10 +92,7 @@ const MvpStatsPage = () => {
           transition={{ delay: 0.1 }}
           className="mb-6"
         >
-          <div className="flex items-center gap-2 mb-3">
-            <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">This Week</h2>
-            <PhaseBadge phase="phase2" />
-          </div>
+          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-3">This Week</h2>
           <WeeklyChart stats={weekStats} />
           <p className="text-xs text-muted-foreground text-center mt-2">
             Based on your completed Fócas sessions
@@ -128,24 +124,6 @@ const MvpStatsPage = () => {
           </div>
         </motion.div>
 
-        {/* Future Phase Annotations */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="space-y-3"
-        >
-          <PhaseAnnotation
-            phase="phase2"
-            title="Goal Setting"
-            description="Set personal focus targets and track progress. Subject-specific focus breakdowns."
-          />
-          <PhaseAnnotation
-            phase="phase3"
-            title="Achievements & Rewards"
-            description="Gamification with badges, milestones, and school-wide leaderboards."
-          />
-        </motion.div>
       </div>
     </MobileLayout>
   );
