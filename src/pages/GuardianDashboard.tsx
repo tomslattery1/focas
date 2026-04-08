@@ -265,8 +265,7 @@ const ParentDashboard = () => {
             <div>
               <h3 className="text-lg font-semibold mb-1">Unlock Codes</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Generate codes for your children to deactivate Study Mode at home. 
-                NFC tags are the primary method — codes are a backup.
+                Generate a temporary code for your child to end their Fócas session early when needed.
               </p>
             </div>
 
