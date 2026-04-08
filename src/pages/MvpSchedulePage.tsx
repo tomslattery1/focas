@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { MobileLayout } from '@/components/layout/MobileLayout';
-import { ClassCard } from '@/components/schedule/ClassCard';
-import { PhaseAnnotation } from '@/components/mvp/PhaseAnnotation';
+import { useApp } from '@/contexts/AppContext';
 import { useApp } from '@/contexts/AppContext';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
