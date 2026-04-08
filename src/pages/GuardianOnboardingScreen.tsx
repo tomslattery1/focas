@@ -38,8 +38,8 @@ const slides = [
   {
     id: 4,
     icon: Bell,
-    title: 'Get notified when it matters',
-    description: 'Receive alerts if your child\'s compliance status changes, so you can address issues together.',
+    title: 'Get updates when it matters',
+    description: 'Receive a gentle heads-up if your child takes a break from focusing, so you can send them some encouragement.',
     color: 'bg-status-amber/10',
     iconColor: 'text-status-amber',
   },
