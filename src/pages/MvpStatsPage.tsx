@@ -128,24 +128,6 @@ const MvpStatsPage = () => {
           </div>
         </motion.div>
 
-        {/* Future Phase Annotations */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="space-y-3"
-        >
-          <PhaseAnnotation
-            phase="phase2"
-            title="Goal Setting"
-            description="Set personal focus targets and track progress. Subject-specific focus breakdowns."
-          />
-          <PhaseAnnotation
-            phase="phase3"
-            title="Achievements & Rewards"
-            description="Gamification with badges, milestones, and school-wide leaderboards."
-          />
-        </motion.div>
       </div>
     </MobileLayout>
   );

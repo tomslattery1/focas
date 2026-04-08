@@ -112,18 +112,6 @@ const MvpSchedulePage = () => {
           </div>
         </motion.div>
 
-        {/* Auto-trigger hint */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.05 }}
-          className="mb-4 p-3 rounded-xl bg-primary/5 border border-primary/20 flex items-center gap-3"
-        >
-          <Clock className="w-5 h-5 text-primary shrink-0" />
-          <p className="text-xs text-muted-foreground">
-            <span className="font-medium text-foreground">Auto-trigger enabled:</span> Fócas Mode activates automatically during scheduled class times via the DeviceActivity framework.
-          </p>
-        </motion.div>
 
         {/* Class list */}
         <div className="space-y-3 mb-6">
@@ -138,20 +126,6 @@ const MvpSchedulePage = () => {
             </motion.div>
           ))}
         </div>
-
-        {/* Phase notes */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="space-y-3"
-        >
-          <PhaseAnnotation
-            phase="phase2"
-            title="Enhanced Schedule Sync"
-            description="Real-time schedule updates with push notifications for timetable changes and room swaps."
-          />
-        </motion.div>
       </div>
     </MobileLayout>
   );

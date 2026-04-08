@@ -138,24 +138,6 @@ const MvpSettingsPage = () => {
         >
           Fócas v1.0.0 (MVP) · © 2026 Fócas Education
         </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="mt-6 space-y-3"
-        >
-          <PhaseAnnotation
-            phase="phase2"
-            title="Notification Preferences"
-            description="Control class reminders, schedule changes, and teacher messages."
-          />
-          <PhaseAnnotation
-            phase="phase3"
-            title="Parent / Guardian Link"
-            description="Connect with a parent or guardian to share focus reports."
-          />
-        </motion.div>
       </div>
     </MobileLayout>
   );
