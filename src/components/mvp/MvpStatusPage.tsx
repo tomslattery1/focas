@@ -189,29 +189,6 @@ const MvpStatusPage = () => {
           </p>
         </motion.div>
 
-        {/* Phase annotations */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25 }}
-          className="space-y-3"
-        >
-          <PhaseAnnotation
-            phase="phase2"
-            title="NFC Tag Activation"
-            description="Tap an NFC tag in the classroom to start/stop Fócas Mode automatically."
-          />
-          <PhaseAnnotation
-            phase="phase2"
-            title="School Integration"
-            description="If enabled by your school, your class focus status may be visible at a school level."
-          />
-          <PhaseAnnotation
-            phase="phase3"
-            title="Guardian Dashboard"
-            description="Your parent or guardian can view focus reports and send encouragement."
-          />
-        </motion.div>
       </div>
     </MobileLayout>
   );
