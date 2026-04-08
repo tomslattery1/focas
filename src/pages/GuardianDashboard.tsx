@@ -318,11 +318,11 @@ const ParentDashboard = () => {
             <Card>
               <CardContent className="p-4 space-y-3">
                 {[
-                  { child: 'Aoife', action: 'Study Mode ended', time: '15:30', type: 'info' },
-                  { child: 'Aoife', action: 'Compliance maintained all day', time: '15:30', type: 'success' },
-                  { child: 'Ciarán', action: 'Brief amber status (2 min)', time: '14:22', type: 'warning' },
-                  { child: 'Aoife', action: 'Study Mode started', time: '08:30', type: 'info' },
-                  { child: 'Ciarán', action: 'Study Mode started', time: '08:30', type: 'info' },
+                  { child: 'Aoife', action: 'Fócas session ended', time: '15:30', type: 'info' },
+                  { child: 'Aoife', action: 'Stayed focused all day — amazing! 🌟', time: '15:30', type: 'success' },
+                  { child: 'Ciarán', action: 'Took a short break (2 min)', time: '14:22', type: 'warning' },
+                  { child: 'Aoife', action: 'Fócas session started', time: '08:30', type: 'info' },
+                  { child: 'Ciarán', action: 'Fócas session started', time: '08:30', type: 'info' },
                 ].map((activity, index) => (
                   <motion.div
                     key={index}
