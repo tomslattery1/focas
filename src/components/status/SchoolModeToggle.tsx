@@ -171,35 +171,11 @@ export const SchoolModeToggle = ({ isActive, onToggle }: SchoolModeToggleProps) 
           </div>
         )}
 
-        {/* Deactivation options - NFC or Code only (no hold button) */}
+        {/* Deactivation options */}
         <div className="space-y-2">
           <p className="text-xs font-medium text-muted-foreground text-center uppercase tracking-wide">
             Deactivation Options
           </p>
-          
-          {/* NFC Option */}
-          <Button
-            variant="outline"
-            onClick={handleNfcDeactivate}
-            disabled={isScanning}
-            className={cn(
-              "w-full h-auto py-4 flex items-center justify-center gap-3 rounded-xl border-destructive/30 hover:border-destructive/50 hover:bg-destructive/5",
-              isScanning && "border-primary bg-primary/5"
-            )}
-          >
-            <Nfc className={cn(
-              "w-6 h-6",
-              isScanning ? "text-primary animate-pulse" : "text-destructive/70"
-            )} />
-            <div className="text-left">
-              <span className="text-sm font-medium block">
-                {isScanning ? 'Scanning...' : 'Tap NFC to Deactivate'}
-              </span>
-              <span className="text-xs text-muted-foreground">
-                {!isNfcSupported ? 'NFC not available' : 'Use NFC tag'}
-              </span>
-            </div>
-          </Button>
 
           {/* Code Options - side by side */}
           <div className="grid grid-cols-2 gap-3">
