@@ -19,7 +19,14 @@ import { useState } from 'react';
 const MvpSettingsPage = () => {
   const { resetOnboarding, hasOptedInToShare, setHasOptedInToShare, schoolSettings } = useApp();
   const navigate = useNavigate();
-  const [shareWithTeacher, setShareWithTeacher] = useState(false);
+  const [shareWithTeacher, setShareWithTeacher] = useState(() => {
+    return localStorage.getItem('focas_share_with_teacher') === 'true';
+  });
+
+  const handleTeacherShareChange = (checked: boolean) => {
+    setShareWithTeacher(checked);
+    localStorage.setItem('focas_share_with_teacher', String(checked));
+  };
 
   const handleSignOut = () => {
     resetOnboarding();
@@ -84,7 +91,7 @@ const MvpSettingsPage = () => {
               <h4 className="font-medium text-foreground text-sm">Let your teacher see you're focused</h4>
               <p className="text-xs text-muted-foreground">On/off only — your apps stay private</p>
             </div>
-            <Switch checked={shareWithTeacher} onCheckedChange={setShareWithTeacher} />
+            <Switch checked={shareWithTeacher} onCheckedChange={handleTeacherShareChange} />
           </motion.div>
 
           {/* Privacy Policy */}

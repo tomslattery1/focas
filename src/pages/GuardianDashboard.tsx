@@ -146,6 +146,12 @@ const ParentDashboard = () => {
 
       {/* Main Content */}
       <main className="container px-4 py-6">
+        {/* Demo mode banner */}
+        <div className="mb-4 rounded-xl border border-border/50 bg-muted/50 px-4 py-3 text-center">
+          <p className="text-xs text-muted-foreground">
+            Demo mode — showing sample data. Real data requires account setup.
+          </p>
+        </div>
         {/* Guardian Activity Notifications (emergency, early exit, missed sessions) */}
         <GuardianNotificationBanner 
           notifications={parentNotifications}
