@@ -1,11 +1,10 @@
 import { MobileLayout } from '@/components/layout/MobileLayout';
-import { StatusIndicator } from '@/components/status/StatusIndicator';
-
 import { useApp } from '@/contexts/AppContext';
 import { useGamification } from '@/contexts/GamificationContext';
 import { useSessionTimer } from '@/hooks/useSessionTimer';
 import { Clock, BookOpen, Power, Shield, Flame, Target } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
 import { toast } from 'sonner';
 
 /**
