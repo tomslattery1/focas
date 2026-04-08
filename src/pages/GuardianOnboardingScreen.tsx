@@ -31,7 +31,7 @@ const slides = [
     id: 3,
     icon: Lock,
     title: 'Unlock codes when needed',
-    description: 'If your child needs to end a focus session early, you can generate a temporary code from your dashboard.',
+    description: 'If your child needs to end a focus session early, you can generate a temporary unlock code from your dashboard.',
     color: 'bg-primary/10',
     iconColor: 'text-primary',
   },

@@ -171,10 +171,10 @@ const ParentDashboard = () => {
               <p className="text-sm text-muted-foreground">Your Children</p>
               <p className="text-3xl font-bold text-primary">{children.length}</p>
             </div>
-          <div className="text-right">
-              <p className="text-sm text-muted-foreground">Currently Focusing</p>
+            <div className="text-right">
+              <p className="text-sm text-muted-foreground">Focusing Today</p>
               <p className="text-2xl font-semibold">
-                {children.filter(c => c.status === 'green').length}/{children.length}
+                {children.filter(c => c.status === 'green').length}
               </p>
             </div>
           </div>
@@ -228,13 +228,8 @@ const ParentDashboard = () => {
                             </span>
                           </div>
                           <div>
-                            <div className="flex items-center gap-2">
+                            <div>
                               <h4 className="font-semibold">{child.name}</h4>
-                              {!child.hasOptedIn && (
-                                <span className="text-xs px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-600">
-                                  Not opted in
-                                </span>
-                              )}
                             </div>
                             <div className="flex items-center gap-2 text-sm text-muted-foreground">
                               <StatusIcon className={`w-4 h-4 ${statusConfig[child.status].className}`} />
@@ -265,8 +260,7 @@ const ParentDashboard = () => {
             <div>
               <h3 className="text-lg font-semibold mb-1">Unlock Codes</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Generate codes for your children to deactivate Study Mode at home. 
-                NFC tags are the primary method — codes are a backup.
+                Generate a temporary code for your child to end their Fócas session early when needed.
               </p>
             </div>
 
