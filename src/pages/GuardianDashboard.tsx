@@ -244,7 +244,7 @@ const ParentDashboard = () => {
                         </div>
                         <div className="text-right">
                           <p className="text-2xl font-bold text-primary">{child.todayCompliance}%</p>
-                          <p className="text-xs text-muted-foreground">Today's Compliance</p>
+                          <p className="text-xs text-muted-foreground">Today's Focus Score</p>
                         </div>
                       </div>
 
