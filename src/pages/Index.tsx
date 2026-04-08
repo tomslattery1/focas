@@ -82,7 +82,8 @@ const Index = () => {
       consentTimestamp: new Date().toISOString(),
     });
     setHasOptedInToShare(consents.shareStatusWithGuardians);
-    setOnboardingStep('login');
+    setAuthenticated(true);
+    setOnboardingStep('complete');
   };
 
   const handleConsentDecline = () => {

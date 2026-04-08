@@ -131,7 +131,7 @@ const defaultAnnouncements: Announcement[] = [
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const defaultSchoolSettings: SchoolSettings = {
-  schoolName: "St. Michael College",
+  schoolName: "Fócas",
   schoolLogo: defaultSchoolLogo,
   schoolStartTime: '08:50',
   schoolEndTime: '14:30',

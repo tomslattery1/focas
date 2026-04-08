@@ -114,15 +114,27 @@ const MvpSettingsPage = () => {
           />
         </div>
 
-        {/* Sign out */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+        {/* Account sync notice */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="bg-muted/50 rounded-xl p-4 border border-border/50 mb-4"
+        >
+          <p className="text-sm text-muted-foreground text-center">
+            Account sync coming soon — your data is currently stored on this device only.
+          </p>
+        </motion.div>
+
+        {/* Reset / Sign out */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
           <Button
             variant="outline"
             onClick={handleSignOut}
             className="w-full text-destructive hover:text-destructive hover:bg-destructive/10 border-destructive/30"
           >
             <LogOut className="w-4 h-4 mr-2" />
-            Sign Out
+            Reset App
           </Button>
         </motion.div>
 
