@@ -28,6 +28,8 @@ const MvpStatusPage = () => {
   } = useApp();
   const { state: gamification, completeSession, updateFocusScore } = useGamification();
   const { todayCompliantMinutes, currentSessionMinutes, startSession, stopSession, isSessionActive } = useSessionTimer();
+  const navigate = useNavigate();
+  const [showNoCategoriesPrompt, setShowNoCategoriesPrompt] = useState(false);
 
   // Compute elapsed school minutes today (used as denominator for focus score)
   const getElapsedSchoolMinutes = (): number => {
