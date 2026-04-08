@@ -50,7 +50,7 @@ const mockNotifications: Notification[] = [
     id: '1',
     childName: 'Aoife',
     status: 'amber',
-    message: 'Compliance dropped to warning level. Phone may have been used outside allowed apps.',
+    message: 'Aoife paused their focus session — they might need a little encouragement!',
     timestamp: new Date(Date.now() - 120000), // 2 minutes ago
     read: false,
   },
