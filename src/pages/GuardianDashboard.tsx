@@ -171,10 +171,10 @@ const ParentDashboard = () => {
               <p className="text-sm text-muted-foreground">Your Children</p>
               <p className="text-3xl font-bold text-primary">{children.length}</p>
             </div>
-          <div className="text-right">
-              <p className="text-sm text-muted-foreground">Currently Focusing</p>
+            <div className="text-right">
+              <p className="text-sm text-muted-foreground">Focusing Today</p>
               <p className="text-2xl font-semibold">
-                {children.filter(c => c.status === 'green').length}/{children.length}
+                {children.filter(c => c.status === 'green').length}
               </p>
             </div>
           </div>
