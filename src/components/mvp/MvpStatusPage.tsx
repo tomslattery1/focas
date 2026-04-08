@@ -141,6 +141,26 @@ const MvpStatusPage = () => {
           </motion.div>
         )}
 
+        {/* No categories prompt */}
+        {showNoCategoriesPrompt && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-4 p-4 rounded-2xl bg-primary/5 border border-primary/20"
+          >
+            <p className="text-sm text-foreground mb-3">
+              Add at least one app category to block before starting your session — even one small step counts!
+            </p>
+            <button
+              onClick={() => navigate('/settings/blocked-categories')}
+              className="flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+            >
+              <Plus className="w-4 h-4" />
+              Choose categories to block
+            </button>
+          </motion.div>
+        )}
+
         {/* Big toggle button */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
