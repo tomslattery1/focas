@@ -44,7 +44,6 @@ const slides = [
 
 const ParentOnboardingScreen = ({ onComplete }: ParentOnboardingScreenProps) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [onboardingPhase, setOnboardingPhase] = useState<OnboardingPhase>('slides');
 
   const handleNext = () => {
     if (currentSlide < slides.length - 1) {
