@@ -93,10 +93,7 @@ const MvpStatsPage = () => {
           transition={{ delay: 0.1 }}
           className="mb-6"
         >
-          <div className="flex items-center gap-2 mb-3">
-            <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">This Week</h2>
-          </div>
-          </div>
+          <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-3">This Week</h2>
           <WeeklyChart stats={weekStats} />
           <p className="text-xs text-muted-foreground text-center mt-2">
             Based on your completed Fócas sessions
