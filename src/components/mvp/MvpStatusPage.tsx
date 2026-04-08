@@ -3,6 +3,7 @@ import { StatusIndicator } from '@/components/status/StatusIndicator';
 import { PhaseAnnotation } from './PhaseAnnotation';
 import { useApp } from '@/contexts/AppContext';
 import { useGamification } from '@/contexts/GamificationContext';
+import { useSessionTimer } from '@/hooks/useSessionTimer';
 import { Clock, BookOpen, Power, Shield, Flame, Target } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
@@ -13,11 +14,8 @@ import { toast } from 'sonner';
  * Core MVP:
  * ✅ Manual start / stop Fócas session
  * ✅ Green / Amber / Red status
- * ✅ Today's focus time
+ * ✅ Real-time focus timer & score
  * ✅ Current class
- *
- * Phase 2: NFC tag activation, teacher encouragement
- * Phase 3: Parent dashboard, AI recommendations
  */
 const MvpStatusPage = () => {
   const {
@@ -25,14 +23,27 @@ const MvpStatusPage = () => {
     setFocasModeActive,
     focusStatus,
     currentClass,
-    todayStats,
+    schoolSettings,
   } = useApp();
   const { state: gamification, completeSession, updateFocusScore } = useGamification();
+  const { todayCompliantMinutes, currentSessionMinutes, startSession, stopSession, isSessionActive } = useSessionTimer();
 
-  // Compute live focus score from today's stats
-  const liveScore = todayStats.totalMinutes > 0
-    ? Math.round((todayStats.compliantMinutes / todayStats.totalMinutes) * 100)
-    : 0;
+  // Compute elapsed school minutes today (used as denominator for focus score)
+  const getElapsedSchoolMinutes = (): number => {
+    const now = new Date();
+    const [startH, startM] = schoolSettings.schoolStartTime.split(':').map(Number);
+    const [endH, endM] = schoolSettings.schoolEndTime.split(':').map(Number);
+    const schoolStartMin = startH * 60 + startM;
+    const schoolEndMin = endH * 60 + endM;
+    const currentMin = now.getHours() * 60 + now.getMinutes();
+    // Clamp to school window
+    const effectiveStart = Math.max(schoolStartMin, Math.min(currentMin, schoolEndMin));
+    const elapsed = effectiveStart - schoolStartMin;
+    return Math.max(1, elapsed); // at least 1 to avoid division by zero
+  };
+
+  const elapsedSchoolMinutes = getElapsedSchoolMinutes();
+  const liveScore = Math.min(100, Math.round((todayCompliantMinutes / elapsedSchoolMinutes) * 100));
 
   const formatTime = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
@@ -43,11 +54,12 @@ const MvpStatusPage = () => {
   const toggleSession = () => {
     const next = !isFocasModeActive;
     setFocasModeActive(next);
-    if (!next) {
-      // Session ended — record it
-      completeSession(liveScore);
-    } else {
+    if (next) {
+      startSession();
       updateFocusScore(liveScore);
+    } else {
+      stopSession();
+      completeSession(liveScore);
     }
     toast.success(next ? 'Fócas session started' : 'Fócas session ended', {
       description: next
