@@ -95,6 +95,15 @@ const MvpSettingsPage = () => {
             <Switch checked={shareWithTeacher} onCheckedChange={handleTeacherShareChange} />
           </motion.div>
 
+          {/* Blocked Categories */}
+          <SettingsLink
+            icon={<Shield className="w-5 h-5 text-primary" />}
+            label="Apps to Block During Fócas"
+            sub="Choose categories to limit in focus sessions"
+            onClick={() => navigate('/settings/blocked-categories')}
+            delay={0.1}
+          />
+
           {/* Privacy Policy */}
           <SettingsLink
             icon={<Lock className="w-5 h-5 text-primary" />}

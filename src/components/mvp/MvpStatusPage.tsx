@@ -118,7 +118,7 @@ const MvpStatusPage = () => {
             className="flex flex-wrap items-center justify-center gap-2 mb-6"
           >
             <Shield className="w-4 h-4 text-muted-foreground" />
-            {['Social Media', 'Games', 'Entertainment'].map((category) => (
+            {getBlockedCategories().map((category) => (
               <span
                 key={category}
                 className="px-3 py-1 rounded-full text-xs font-medium bg-muted text-muted-foreground border border-border"

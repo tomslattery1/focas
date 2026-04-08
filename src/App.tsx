@@ -34,6 +34,7 @@ const App = () => (
               <Route path="/schedule" element={<MvpSchedulePage />} />
               <Route path="/achievements" element={<AchievementsPage />} />
               <Route path="/settings" element={<MvpSettingsPage />} />
+              <Route path="/settings/blocked-categories" element={<BlockedCategoriesPage />} />
 
               {/* Legal */}
               <Route path="/privacy" element={<PrivacyPolicyPage />} />
