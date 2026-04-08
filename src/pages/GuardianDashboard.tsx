@@ -57,9 +57,9 @@ const mockNotifications: Notification[] = [
 ];
 
 const statusConfig: Record<ComplianceStatus, { icon: React.ElementType; label: string; className: string; bgClass: string }> = {
-  green: { icon: CheckCircle, label: 'Compliant', className: 'text-emerald-500', bgClass: 'bg-emerald-500/10' },
-  amber: { icon: AlertTriangle, label: 'Warning', className: 'text-amber-500', bgClass: 'bg-amber-500/10' },
-  red: { icon: XCircle, label: 'Non-compliant', className: 'text-red-500', bgClass: 'bg-red-500/10' },
+  green: { icon: CheckCircle, label: 'Focusing', className: 'text-emerald-500', bgClass: 'bg-emerald-500/10' },
+  amber: { icon: AlertTriangle, label: 'Taking a break', className: 'text-amber-500', bgClass: 'bg-amber-500/10' },
+  red: { icon: XCircle, label: 'Not started yet', className: 'text-red-500', bgClass: 'bg-red-500/10' },
 };
 
 const ParentDashboard = () => {
