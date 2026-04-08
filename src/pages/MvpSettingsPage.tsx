@@ -124,10 +124,10 @@ const MvpSettingsPage = () => {
           <Button
             variant="outline"
             onClick={handleSignOut}
-            className="w-full text-destructive hover:text-destructive hover:bg-destructive/10 border-destructive/30"
+            className="w-full text-muted-foreground hover:text-foreground hover:bg-muted/50 border-border"
           >
             <LogOut className="w-4 h-4 mr-2" />
-            Reset App
+            Restart Onboarding
           </Button>
         </motion.div>
 
