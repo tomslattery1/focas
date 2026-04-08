@@ -329,41 +329,34 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     compliantMinutes: 268,
   };
 
-  // Generate week stats based on school days only
+  // Build week stats from localStorage daily history
   const schoolDays = getSchoolDays();
-  const generateSchoolWeekStats = (): DailyStats[] => {
+  const weekStats: DailyStats[] = useMemo(() => {
+    const history = loadDailyHistory();
     const stats: DailyStats[] = [];
     const today = new Date();
-    
-    // Look back up to 7 days to find school days
+    const schoolMinutesPerDay = (() => {
+      const [sh, sm] = schoolSettings.schoolStartTime.split(':').map(Number);
+      const [eh, em] = schoolSettings.schoolEndTime.split(':').map(Number);
+      return (eh * 60 + em) - (sh * 60 + sm);
+    })();
+
     for (let i = 6; i >= 0; i--) {
       const date = new Date(today.getTime() - i * 86400000);
       const dayOfWeek = date.getDay();
-      
-      // Only include stats for configured school days
-      if (schoolDays.includes(dayOfWeek)) {
-        stats.push({
-          date,
-          totalMinutes: 300,
-          compliantMinutes: 260 + Math.floor(Math.random() * 40),
-        });
-      }
-    }
-    
-    // Always include today if it's a school day
-    if (schoolDays.includes(today.getDay())) {
-      // Replace last entry with actual today stats
-      if (stats.length > 0 && stats[stats.length - 1].date.toDateString() === today.toDateString()) {
-        stats[stats.length - 1] = todayStats;
-      } else {
-        stats.push(todayStats);
-      }
-    }
-    
-    return stats;
-  };
+      if (!schoolDays.includes(dayOfWeek)) continue;
 
-  const weekStats: DailyStats[] = generateSchoolWeekStats();
+      const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+      const compliantMinutes = history[key] || 0;
+
+      stats.push({
+        date,
+        totalMinutes: schoolMinutesPerDay,
+        compliantMinutes,
+      });
+    }
+    return stats;
+  }, [schoolSettings.schoolStartTime, schoolSettings.schoolEndTime, schoolDays]);
 
   const currentClass = defaultSchedule.find(c => c.isCurrent) || null;
 
