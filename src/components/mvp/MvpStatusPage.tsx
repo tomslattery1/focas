@@ -2,10 +2,12 @@ import { MobileLayout } from '@/components/layout/MobileLayout';
 import { useApp } from '@/contexts/AppContext';
 import { useGamification } from '@/contexts/GamificationContext';
 import { useSessionTimer } from '@/hooks/useSessionTimer';
-import { Clock, BookOpen, Power, Shield, Flame, Target } from 'lucide-react';
+import { Clock, BookOpen, Power, Shield, Flame, Target, Plus } from 'lucide-react';
 import { getBlockedCategories } from '@/pages/BlockedCategoriesPage';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 /**
  * MVP Home — Fócas Mode
