@@ -205,7 +205,7 @@ const ParentDashboard = () => {
             <div>
               <h3 className="text-lg font-semibold mb-1">Your Children</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Monitor compliance and device status
+                Support their focus journey
               </p>
             </div>
 
