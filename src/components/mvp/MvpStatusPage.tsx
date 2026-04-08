@@ -157,7 +157,7 @@ const MvpStatusPage = () => {
               <span className="text-xs font-medium text-muted-foreground">Today</span>
             </div>
             <p className="text-xl font-bold text-foreground">
-              {formatTime(todayStats.compliantMinutes)}
+              {formatTime(todayCompliantMinutes)}
             </p>
             <p className="text-xs text-muted-foreground">Focus time</p>
           </div>
