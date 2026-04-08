@@ -8,8 +8,6 @@ import DataSharingConsent, { ConsentChoices } from '@/components/student/DataSha
 import ScreenTimePermission from '@/components/student/ScreenTimePermission';
 import GuardianInvite from '@/components/student/GuardianInvite';
 import GuardianDashboard from './GuardianDashboard';
-import TeacherDashboard from './TeacherDashboard';
-import AdminDashboard from './AdminDashboard';
 import DemoRoleSelector from '@/components/demo/DemoRoleSelector';
 import { toast } from 'sonner';
 import { UserRole } from '@/types/app';
