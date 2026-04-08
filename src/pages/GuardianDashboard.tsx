@@ -168,11 +168,11 @@ const ParentDashboard = () => {
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">Children Monitored</p>
+              <p className="text-sm text-muted-foreground">Your Children</p>
               <p className="text-3xl font-bold text-primary">{children.length}</p>
             </div>
           <div className="text-right">
-              <p className="text-sm text-muted-foreground">All Compliant</p>
+              <p className="text-sm text-muted-foreground">Currently Focusing</p>
               <p className="text-2xl font-semibold">
                 {children.filter(c => c.status === 'green').length}/{children.length}
               </p>
