@@ -47,7 +47,7 @@ const GuardianNotificationPermission = ({ onComplete }: GuardianNotificationPerm
 
             {/* Description */}
             <p className="text-muted-foreground text-base leading-relaxed max-w-xs mx-auto text-center mb-8">
-              Stay informed about your child's device activity and compliance status.
+              Get gentle updates about your child's focus sessions so you can cheer them on.
             </p>
 
             {/* Benefits list */}
