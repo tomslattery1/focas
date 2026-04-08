@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Power, Nfc, KeyRound, Timer, Coffee, Home, ShieldCheck } from 'lucide-react';
+import { Power, KeyRound, Timer, Coffee, Home, ShieldCheck } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ClassCodeDialog } from '@/components/student/ClassCodeDialog';
