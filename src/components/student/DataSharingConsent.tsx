@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Shield, Users } from 'lucide-react';
+import { Heart, BookOpen, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { useNavigate } from 'react-router-dom';
 
 interface DataSharingConsentProps {
   ageGroup: 'under13' | '13to17' | '18plus';
@@ -20,15 +19,9 @@ export interface ConsentChoices {
   acceptTermsAndPrivacy: boolean;
 }
 
-/**
- * Simplified sharing consent — MVP asks:
- * 1. Share focus status (on/off) with your parent/guardian? (toggle)
- * 2. Allow school to see class focus status? (toggle, off by default)
- * 3. Accept Terms & Privacy (required)
- */
 const DataSharingConsent = ({ onConsent, onDecline }: DataSharingConsentProps) => {
-  const [shareWithGuardian, setShareWithGuardian] = useState(true);
-  const [shareWithSchool, setShareWithSchool] = useState(false);
+  const [shareWithGuardian, setShareWithGuardian] = useState(false);
+  const [shareWithTeacher, setShareWithTeacher] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [error, setError] = useState('');
 
@@ -38,7 +31,7 @@ const DataSharingConsent = ({ onConsent, onDecline }: DataSharingConsentProps) =
       return;
     }
     onConsent({
-      shareStatusWithTeachers: shareWithSchool,
+      shareStatusWithTeachers: shareWithTeacher,
       shareStatusWithGuardians: shareWithGuardian,
       allowEncouragementMessages: shareWithGuardian,
       acceptTermsAndPrivacy: true,
@@ -52,52 +45,45 @@ const DataSharingConsent = ({ onConsent, onDecline }: DataSharingConsentProps) =
         animate={{ opacity: 1, y: 0 }}
         className="flex-1 flex flex-col"
       >
-        {/* Header */}
         <div className="text-center mb-8">
           <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
             <Shield className="w-8 h-8 text-primary" />
           </div>
           <h1 className="text-xl font-semibold text-foreground mb-2">
-            Sharing Preferences
+            You're in control
           </h1>
           <p className="text-muted-foreground text-sm max-w-xs mx-auto">
-            Choose who can see if your Fócas session is on or off. No other data is ever shared.
+            Choose who gets to see when you're in focus mode. Only on/off — nothing else is ever shared.
           </p>
         </div>
 
-        {/* Guardian sharing toggle (primary) */}
         <div className="max-w-sm mx-auto w-full space-y-4 flex-1">
-          <div className="p-5 rounded-2xl border-2 border-primary/30 bg-card flex items-center gap-4">
+          {/* Guardian sharing — off by default */}
+          <div className="p-5 rounded-2xl border bg-card flex items-center gap-4">
             <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-              <Shield className="w-5 h-5 text-primary" />
+              <Heart className="w-5 h-5 text-primary" />
             </div>
             <div className="flex-1">
-              <p className="font-medium text-foreground text-sm">Share with parent / guardian</p>
+              <p className="font-medium text-foreground text-sm">Let your guardian cheer you on</p>
               <p className="text-xs text-muted-foreground mt-0.5">
-                Your parent or guardian sees only on/off — never your apps or data
+                They'll only see if you're in focus mode — never your apps or data
               </p>
             </div>
-            <Switch
-              checked={shareWithGuardian}
-              onCheckedChange={setShareWithGuardian}
-            />
+            <Switch checked={shareWithGuardian} onCheckedChange={setShareWithGuardian} />
           </div>
 
-          {/* School sharing toggle (optional) */}
+          {/* Teacher sharing — off by default */}
           <div className="p-5 rounded-2xl border bg-card flex items-center gap-4">
-            <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center shrink-0">
-              <Users className="w-5 h-5 text-muted-foreground" />
+            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+              <BookOpen className="w-5 h-5 text-primary" />
             </div>
             <div className="flex-1">
-              <p className="font-medium text-foreground text-sm">School visibility</p>
+              <p className="font-medium text-foreground text-sm">Let your teacher see you're focused</p>
               <p className="text-xs text-muted-foreground mt-0.5">
-                Your school may see that your class is in focus mode — never your apps or data
+                They'll see on/off only — your apps and data stay private
               </p>
             </div>
-            <Switch
-              checked={shareWithSchool}
-              onCheckedChange={setShareWithSchool}
-            />
+            <Switch checked={shareWithTeacher} onCheckedChange={setShareWithTeacher} />
           </div>
 
           {/* Privacy note */}
@@ -135,28 +121,18 @@ const DataSharingConsent = ({ onConsent, onDecline }: DataSharingConsentProps) =
           </div>
 
           {error && (
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-sm text-destructive text-center"
-            >
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm text-destructive text-center">
               {error}
             </motion.p>
           )}
         </div>
 
-        {/* Change later */}
         <p className="text-xs text-muted-foreground text-center mt-4 mb-4">
-          You can change this anytime in Settings
+          You can change these anytime in Settings
         </p>
 
-        {/* Buttons */}
         <div className="space-y-3 max-w-sm mx-auto w-full">
-          <Button
-            onClick={handleContinue}
-            className="w-full h-12 text-base font-medium"
-            disabled={!acceptedTerms}
-          >
+          <Button onClick={handleContinue} className="w-full h-12 text-base font-medium" disabled={!acceptedTerms}>
             Continue
           </Button>
           <Button variant="ghost" onClick={onDecline} className="w-full text-muted-foreground">

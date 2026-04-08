@@ -1,5 +1,5 @@
 import { MobileLayout } from '@/components/layout/MobileLayout';
-import { PhaseAnnotation, PhaseBadge } from '@/components/mvp/PhaseAnnotation';
+import { PhaseAnnotation } from '@/components/mvp/PhaseAnnotation';
 import { SchoolSupervisionNotice } from '@/components/mvp/SchoolSupervisionNotice';
 import { useApp } from '@/contexts/AppContext';
 import { motion } from 'framer-motion';
@@ -9,28 +9,18 @@ import {
   ChevronRight,
   FileText,
   Lock,
-  Users,
+  Heart,
+  BookOpen,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
-
-/**
- * MVP Settings — student preferences
- *
- * Core MVP:
- * ✅ Teacher sharing toggle (mirrors consent)
- * ✅ Privacy Policy & Terms links
- * ✅ Sign out
- *
- * Phase 2: Notifications prefs, profile editing
- * Phase 3: Parent linking, theme, accessibility
- */
 const MvpSettingsPage = () => {
   const { resetOnboarding, hasOptedInToShare, setHasOptedInToShare, schoolSettings } = useApp();
   const navigate = useNavigate();
+  const [shareWithTeacher, setShareWithTeacher] = useState(false);
 
   const handleSignOut = () => {
     resetOnboarding();
@@ -40,16 +30,10 @@ const MvpSettingsPage = () => {
   return (
     <MobileLayout>
       <div className="px-5 pt-14 pb-6">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-6"
-        >
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
           <h1 className="text-2xl font-bold text-foreground">Settings</h1>
         </motion.div>
 
-        {/* School notice */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-6">
           <SchoolSupervisionNotice variant="compact" schoolName={schoolSettings.schoolName} />
         </motion.div>
@@ -71,9 +55,9 @@ const MvpSettingsPage = () => {
           </div>
         </motion.div>
 
-        {/* Settings rows */}
+        {/* Sharing & settings */}
         <div className="space-y-4 mb-6">
-          {/* Teacher sharing toggle */}
+          {/* Guardian sharing */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -81,19 +65,31 @@ const MvpSettingsPage = () => {
             className="bg-card rounded-xl p-4 border border-border/50 shadow-card flex items-center gap-4"
           >
             <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-              <Users className="w-5 h-5 text-primary" />
+              <Heart className="w-5 h-5 text-primary" />
             </div>
             <div className="flex-1">
-              <h4 className="font-medium text-foreground text-sm">Share status with teacher</h4>
-              <p className="text-xs text-muted-foreground">On/off only — never your apps</p>
+              <h4 className="font-medium text-foreground text-sm">Let your guardian cheer you on</h4>
+              <p className="text-xs text-muted-foreground">They see on/off only — never your apps</p>
             </div>
-            <Switch
-              checked={hasOptedInToShare}
-              onCheckedChange={setHasOptedInToShare}
-            />
+            <Switch checked={hasOptedInToShare} onCheckedChange={setHasOptedInToShare} />
           </motion.div>
 
-
+          {/* Teacher sharing */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.08 }}
+            className="bg-card rounded-xl p-4 border border-border/50 shadow-card flex items-center gap-4"
+          >
+            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+              <BookOpen className="w-5 h-5 text-primary" />
+            </div>
+            <div className="flex-1">
+              <h4 className="font-medium text-foreground text-sm">Let your teacher see you're focused</h4>
+              <p className="text-xs text-muted-foreground">On/off only — your apps stay private</p>
+            </div>
+            <Switch checked={shareWithTeacher} onCheckedChange={setShareWithTeacher} />
+          </motion.div>
 
           {/* Privacy Policy */}
           <SettingsLink
@@ -126,7 +122,7 @@ const MvpSettingsPage = () => {
           </p>
         </motion.div>
 
-        {/* Reset / Sign out */}
+        {/* Reset */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
           <Button
             variant="outline"
@@ -147,7 +143,6 @@ const MvpSettingsPage = () => {
           Fócas v1.0.0 (MVP) · © 2025 Fócas Education
         </motion.p>
 
-        {/* Phase notes */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -170,7 +165,6 @@ const MvpSettingsPage = () => {
   );
 };
 
-/* Small helper to avoid repeating the settings-row markup */
 function SettingsLink({
   icon,
   label,
