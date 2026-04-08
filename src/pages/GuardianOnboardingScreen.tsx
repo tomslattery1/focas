@@ -1,45 +1,42 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, Lock, Eye, Bell, ChevronRight } from 'lucide-react';
+import { Users, Heart, Eye, Bell, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import GuardianNotificationPermission from '@/components/guardian/GuardianNotificationPermission';
 
 interface ParentOnboardingScreenProps {
   onComplete: () => void;
 }
-
-type OnboardingPhase = 'slides' | 'notifications';
 
 const slides = [
   {
     id: 1,
     icon: Users,
     title: 'Stay connected to your child\'s focus',
-    description: 'Fócas Family helps you support your child\'s learning by providing visibility into their device usage during school and study time.',
+    description: 'Fócas Family helps you support your child\'s learning by being there for them as they build better focus habits.',
     color: 'bg-primary/10',
     iconColor: 'text-primary',
   },
   {
     id: 2,
     icon: Eye,
-    title: 'See how they\'re doing at a glance',
-    description: 'A simple traffic-light system shows whether your child is currently focusing. Green means they\'re in the zone!',
+    title: 'Cheer them on',
+    description: 'See when your child is in focus mode and celebrate their progress. Green means they\'re in the zone!',
     color: 'bg-status-green/10',
     iconColor: 'text-status-green',
   },
   {
     id: 3,
-    icon: Lock,
-    title: 'Unlock codes when needed',
-    description: 'If your child needs to end a focus session early, you can generate a temporary unlock code from your dashboard.',
+    icon: Heart,
+    title: 'Send encouragement',
+    description: 'Choose from warm messages to send your child during their focus sessions — a little support goes a long way.',
     color: 'bg-primary/10',
     iconColor: 'text-primary',
   },
   {
     id: 4,
     icon: Bell,
-    title: 'Get updates when it matters',
-    description: 'Receive a gentle heads-up if your child takes a break from focusing, so you can send them some encouragement.',
+    title: 'Get notified',
+    description: 'Receive updates when your child shares a focus milestone with you, so you can celebrate together.',
     color: 'bg-status-amber/10',
     iconColor: 'text-status-amber',
   },
@@ -47,39 +44,18 @@ const slides = [
 
 const ParentOnboardingScreen = ({ onComplete }: ParentOnboardingScreenProps) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [onboardingPhase, setOnboardingPhase] = useState<OnboardingPhase>('slides');
 
   const handleNext = () => {
     if (currentSlide < slides.length - 1) {
       setCurrentSlide(currentSlide + 1);
     } else {
-      // Check if notifications already granted
-      const notificationsGranted = localStorage.getItem('guardianNotificationPermissionGranted') === 'true';
-      if (notificationsGranted) {
-        onComplete();
-      } else {
-        setOnboardingPhase('notifications');
-      }
+      onComplete();
     }
   };
 
   const handleSkip = () => {
-    const notificationsGranted = localStorage.getItem('guardianNotificationPermissionGranted') === 'true';
-    if (notificationsGranted) {
-      onComplete();
-    } else {
-      setOnboardingPhase('notifications');
-    }
-  };
-
-  const handleNotificationComplete = () => {
     onComplete();
   };
-
-  // Show notification permission screen
-  if (onboardingPhase === 'notifications') {
-    return <GuardianNotificationPermission onComplete={handleNotificationComplete} />;
-  }
 
   const slide = slides[currentSlide];
 

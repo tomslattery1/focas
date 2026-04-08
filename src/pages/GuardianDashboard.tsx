@@ -310,37 +310,11 @@ const ParentDashboard = () => {
             </div>
 
             <Card>
-              <CardContent className="p-4 space-y-3">
-                {[
-                  { child: 'Aoife', action: 'Fócas session ended', time: '15:30', type: 'info' },
-                  { child: 'Aoife', action: 'Stayed focused all day — amazing! 🌟', time: '15:30', type: 'success' },
-                  { child: 'Ciarán', action: 'Took a short break (2 min)', time: '14:22', type: 'warning' },
-                  { child: 'Aoife', action: 'Fócas session started', time: '08:30', type: 'info' },
-                  { child: 'Ciarán', action: 'Fócas session started', time: '08:30', type: 'info' },
-                ].map((activity, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    className="flex items-center gap-3 p-3 rounded-lg bg-muted/50"
-                  >
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                      activity.type === 'success' ? 'bg-emerald-500/10' :
-                      activity.type === 'warning' ? 'bg-amber-500/10' :
-                      'bg-muted'
-                    }`}>
-                      {activity.type === 'success' && <CheckCircle className="w-4 h-4 text-emerald-500" />}
-                      {activity.type === 'warning' && <AlertTriangle className="w-4 h-4 text-amber-500" />}
-                      {activity.type === 'info' && <BookOpen className="w-4 h-4 text-muted-foreground" />}
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-sm font-medium">{activity.child}</p>
-                      <p className="text-xs text-muted-foreground">{activity.action}</p>
-                    </div>
-                    <span className="text-xs text-muted-foreground">{activity.time}</span>
-                  </motion.div>
-                ))}
+              <CardContent className="p-8 text-center">
+                <BookOpen className="w-10 h-10 text-muted-foreground/40 mx-auto mb-3" />
+                <p className="text-sm text-muted-foreground">
+                  Focus activity will appear here once your child starts using Fócas.
+                </p>
               </CardContent>
             </Card>
           </TabsContent>
