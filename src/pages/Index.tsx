@@ -108,10 +108,6 @@ const Index = () => {
     switch (userRole) {
       case 'parent':
         return <GuardianDashboard />;
-      case 'teacher':
-        return <TeacherDashboard />;
-      case 'admin':
-        return <AdminDashboard />;
       case 'student':
       default:
         return <MvpStatusPage />;
