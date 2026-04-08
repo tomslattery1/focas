@@ -311,7 +311,7 @@ const ParentDashboard = () => {
             <div>
               <h3 className="text-lg font-semibold mb-1">Recent Activity</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Monitor your children's compliance history
+                See how your children's focus sessions are going
               </p>
             </div>
 
