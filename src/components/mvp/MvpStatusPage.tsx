@@ -1,6 +1,6 @@
 import { MobileLayout } from '@/components/layout/MobileLayout';
 import { StatusIndicator } from '@/components/status/StatusIndicator';
-import { PhaseAnnotation } from './PhaseAnnotation';
+
 import { useApp } from '@/contexts/AppContext';
 import { useGamification } from '@/contexts/GamificationContext';
 import { useSessionTimer } from '@/hooks/useSessionTimer';
