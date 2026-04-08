@@ -56,6 +56,14 @@ const MvpStatusPage = () => {
 
   const toggleSession = () => {
     const next = !isFocasModeActive;
+
+    // Block starting if no categories selected
+    if (next && getBlockedCategories().length === 0) {
+      setShowNoCategoriesPrompt(true);
+      return;
+    }
+    setShowNoCategoriesPrompt(false);
+
     setFocasModeActive(next);
     if (next) {
       startSession();
