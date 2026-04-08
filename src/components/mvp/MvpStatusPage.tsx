@@ -1,6 +1,4 @@
 import { MobileLayout } from '@/components/layout/MobileLayout';
-import { StatusIndicator } from '@/components/status/StatusIndicator';
-
 import { useApp } from '@/contexts/AppContext';
 import { useGamification } from '@/contexts/GamificationContext';
 import { useSessionTimer } from '@/hooks/useSessionTimer';
@@ -78,17 +76,24 @@ const MvpStatusPage = () => {
           animate={{ opacity: 1, scale: 1 }}
           className="flex flex-col items-center mb-6"
         >
-          <div className="relative flex items-center justify-center mb-3">
-            <StatusIndicator
-              status={focusStatus}
-              isActive={isFocasModeActive}
-              size="lg"
-            />
-            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-              <span className="text-3xl font-bold text-foreground">{liveScore}%</span>
-              <span className="text-[10px] text-muted-foreground font-medium">Focus Score</span>
-            </div>
-          </div>
+          <motion.div
+            className={`w-40 h-40 rounded-full flex flex-col items-center justify-center ${
+              isFocasModeActive
+                ? 'bg-[hsl(var(--status-green-light))]'
+                : 'bg-muted'
+            }`}
+            animate={isFocasModeActive ? {
+              boxShadow: [
+                '0 0 20px hsl(var(--status-green) / 0.3)',
+                '0 0 40px hsl(var(--status-green) / 0.5)',
+                '0 0 20px hsl(var(--status-green) / 0.3)',
+              ]
+            } : {}}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <span className="text-4xl font-bold text-foreground">{liveScore}%</span>
+            <span className="text-xs text-muted-foreground font-medium mt-1">Focus Score</span>
+          </motion.div>
 
           {/* Streak + Goal row */}
           <div className="flex items-center gap-4 mt-2">
