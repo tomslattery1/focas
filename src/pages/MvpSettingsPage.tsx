@@ -1,5 +1,4 @@
 import { MobileLayout } from '@/components/layout/MobileLayout';
-import { PhaseAnnotation } from '@/components/mvp/PhaseAnnotation';
 
 import { useApp } from '@/contexts/AppContext';
 import { motion } from 'framer-motion';
