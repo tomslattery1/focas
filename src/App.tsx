@@ -11,6 +11,7 @@ import MvpSchedulePage from "./pages/MvpSchedulePage";
 import MvpStatsPage from "./pages/MvpStatsPage";
 import MvpSettingsPage from "./pages/MvpSettingsPage";
 import AchievementsPage from "./pages/AchievementsPage";
+import BlockedCategoriesPage from "./pages/BlockedCategoriesPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import TermsOfServicePage from "./pages/TermsOfServicePage";
 import NotFound from "./pages/NotFound";
@@ -33,6 +34,7 @@ const App = () => (
               <Route path="/schedule" element={<MvpSchedulePage />} />
               <Route path="/achievements" element={<AchievementsPage />} />
               <Route path="/settings" element={<MvpSettingsPage />} />
+              <Route path="/settings/blocked-categories" element={<BlockedCategoriesPage />} />
 
               {/* Legal */}
               <Route path="/privacy" element={<PrivacyPolicyPage />} />
