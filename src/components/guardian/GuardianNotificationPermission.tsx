@@ -56,7 +56,7 @@ const GuardianNotificationPermission = ({ onComplete }: GuardianNotificationPerm
                 <div className="w-8 h-8 rounded-full bg-status-green/20 flex items-center justify-center">
                   <Check className="w-4 h-4 text-status-green" />
                 </div>
-                <span className="text-sm text-foreground">Compliance status changes</span>
+                <span className="text-sm text-foreground">Focus session updates</span>
               </div>
               <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/50">
                 <div className="w-8 h-8 rounded-full bg-status-green/20 flex items-center justify-center">
