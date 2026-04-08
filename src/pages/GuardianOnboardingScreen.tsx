@@ -49,33 +49,13 @@ const ParentOnboardingScreen = ({ onComplete }: ParentOnboardingScreenProps) => 
     if (currentSlide < slides.length - 1) {
       setCurrentSlide(currentSlide + 1);
     } else {
-      // Check if notifications already granted
-      const notificationsGranted = localStorage.getItem('guardianNotificationPermissionGranted') === 'true';
-      if (notificationsGranted) {
-        onComplete();
-      } else {
-        setOnboardingPhase('notifications');
-      }
+      onComplete();
     }
   };
 
   const handleSkip = () => {
-    const notificationsGranted = localStorage.getItem('guardianNotificationPermissionGranted') === 'true';
-    if (notificationsGranted) {
-      onComplete();
-    } else {
-      setOnboardingPhase('notifications');
-    }
-  };
-
-  const handleNotificationComplete = () => {
     onComplete();
   };
-
-  // Show notification permission screen
-  if (onboardingPhase === 'notifications') {
-    return <GuardianNotificationPermission onComplete={handleNotificationComplete} />;
-  }
 
   const slide = slides[currentSlide];
 
