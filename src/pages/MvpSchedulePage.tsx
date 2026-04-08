@@ -4,7 +4,7 @@ import { ClassCard } from '@/components/schedule/ClassCard';
 import { useApp } from '@/contexts/AppContext';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
-import { Clock, Pencil, School } from 'lucide-react';
+import { Pencil, School } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SchoolCodeSetup, loadStudentSchedule, type ScheduleSlot } from '@/components/student/SchoolCodeSetup';
 import { SubjectEditor } from '@/components/student/SubjectEditor';
