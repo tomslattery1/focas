@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect, useMemo } from 'react';
 import { FocusStatus, ClassPeriod, Announcement, DailyStats, UserRole, OnboardingStep, AnnouncementRecipient, StudentConsent, AgeGroup } from '@/types/app';
 import { loadDailyHistory } from '@/hooks/useSessionTimer';
-import defaultSchoolLogo from '@/assets/school-logo.png';
+import defaultSchoolLogo from '@/assets/focas-logo.png';
 
 export interface SchoolSettings {
   schoolName: string;
@@ -131,7 +131,7 @@ const defaultAnnouncements: Announcement[] = [
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const defaultSchoolSettings: SchoolSettings = {
-  schoolName: "St. Michael College",
+  schoolName: "Fócas",
   schoolLogo: defaultSchoolLogo,
   schoolStartTime: '08:50',
   schoolEndTime: '14:30',

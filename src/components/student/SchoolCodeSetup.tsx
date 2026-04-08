@@ -25,7 +25,7 @@ export interface ScheduleSlot {
 
 const SCHOOL_TEMPLATES: Record<string, SchoolDayTemplate> = {
   '1234': {
-    schoolName: 'St. Michael College',
+    schoolName: 'Demo School',
     startTime: '08:50',
     endTime: '15:40',
     slots: [
