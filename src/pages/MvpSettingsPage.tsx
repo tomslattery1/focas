@@ -91,7 +91,7 @@ const MvpSettingsPage = () => {
               <h4 className="font-medium text-foreground text-sm">Let your teacher see you're focused</h4>
               <p className="text-xs text-muted-foreground">On/off only — your apps stay private</p>
             </div>
-            <Switch checked={shareWithTeacher} onCheckedChange={setShareWithTeacher} />
+            <Switch checked={shareWithTeacher} onCheckedChange={handleTeacherShareChange} />
           </motion.div>
 
           {/* Privacy Policy */}
