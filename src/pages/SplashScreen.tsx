@@ -49,8 +49,7 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
         transition={{ duration: 0.4 }}
         className="absolute bottom-16 flex flex-col items-center"
       >
-        <span className="text-sm text-muted-foreground mb-1">Powered by</span>
-        <span className="text-xl font-semibold text-primary tracking-wide">Fócas</span>
+        <span className="text-lg font-medium text-muted-foreground italic tracking-wide">Find your fócas.</span>
       </motion.div>
     </div>
   );
