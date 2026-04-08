@@ -2,7 +2,6 @@ import { MobileLayout } from '@/components/layout/MobileLayout';
 import { StatsCard } from '@/components/stats/StatsCard';
 import { WeeklyChart } from '@/components/stats/WeeklyChart';
 import { useApp } from '@/contexts/AppContext';
-import { useApp } from '@/contexts/AppContext';
 import { Clock, TrendingUp, Award, Target } from 'lucide-react';
 import { motion } from 'framer-motion';
 
