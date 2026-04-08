@@ -100,11 +100,10 @@ const ParentDashboard = () => {
             
             setNotifications(prev => [newNotification, ...prev]);
             
-            // Show toast for immediate awareness
             toast({
-              title: `${child.name} - ${child.status === 'red' ? 'Alert!' : 'Warning'}`,
+              title: `${child.name} — Focus Update`,
               description: message,
-              variant: child.status === 'red' ? 'destructive' : 'default',
+              variant: 'default',
             });
           }
         }
