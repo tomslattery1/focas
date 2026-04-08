@@ -23,18 +23,6 @@ const demoRoles = [
     icon: Users,
     description: 'Family oversight dashboard',
   },
-  {
-    id: 'teacher' as UserRole,
-    label: 'Teacher',
-    icon: BookOpen,
-    description: 'Classroom view & tools',
-  },
-  {
-    id: 'admin' as UserRole,
-    label: 'School Admin',
-    icon: Shield,
-    description: 'School-wide management',
-  },
 ];
 
 const DemoRoleSelector = ({ onSelectRole, onContinueAsStudent }: DemoRoleSelectorProps) => {
