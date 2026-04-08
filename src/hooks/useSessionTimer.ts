@@ -1,6 +1,29 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 
 const STORAGE_KEY = 'focas_session_data';
+const HISTORY_KEY = 'focas_daily_history';
+
+/** Daily history: map of "YYYY-MM-DD" → compliant minutes */
+export type DailyHistory = Record<string, number>;
+
+export function loadDailyHistory(): DailyHistory {
+  try {
+    const saved = localStorage.getItem(HISTORY_KEY);
+    return saved ? JSON.parse(saved) : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveDailyHistory(history: DailyHistory) {
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+}
+
+function recordMinutesToHistory(dateKey: string, minutes: number) {
+  const history = loadDailyHistory();
+  history[dateKey] = (history[dateKey] || 0) + minutes;
+  saveDailyHistory(history);
+}
 
 interface SessionData {
   /** ISO date string (YYYY-MM-DD) for the day these stats belong to */
@@ -102,6 +125,8 @@ export function useSessionTimer(): SessionTimerResult {
         sessionStartedAt: null,
       };
       persistSessionData(updated);
+      // Also write to daily history for weekly chart
+      recordMinutesToHistory(prev.date, elapsedMinutes);
       return updated;
     });
     return elapsedMinutes;

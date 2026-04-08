@@ -99,7 +99,7 @@ const MvpStatsPage = () => {
           </div>
           <WeeklyChart stats={weekStats} />
           <p className="text-xs text-muted-foreground text-center mt-2">
-            * Sample data — actual usage data will appear once Screen Time is active
+            Based on your completed Fócas sessions
           </p>
         </motion.div>
 
