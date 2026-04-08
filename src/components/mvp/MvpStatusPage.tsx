@@ -5,7 +5,6 @@ import { useSessionTimer } from '@/hooks/useSessionTimer';
 import { Clock, BookOpen, Power, Shield, Flame, Target } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
-import { toast } from 'sonner';
 
 /**
  * MVP Home — Fócas Mode
