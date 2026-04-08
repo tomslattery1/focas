@@ -228,13 +228,8 @@ const ParentDashboard = () => {
                             </span>
                           </div>
                           <div>
-                            <div className="flex items-center gap-2">
+                            <div>
                               <h4 className="font-semibold">{child.name}</h4>
-                              {!child.hasOptedIn && (
-                                <span className="text-xs px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-600">
-                                  Not opted in
-                                </span>
-                              )}
                             </div>
                             <div className="flex items-center gap-2 text-sm text-muted-foreground">
                               <StatusIcon className={`w-4 h-4 ${statusConfig[child.status].className}`} />
