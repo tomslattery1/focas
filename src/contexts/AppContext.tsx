@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect, useMemo } from 'react';
 import { FocusStatus, ClassPeriod, Announcement, DailyStats, UserRole, OnboardingStep, AnnouncementRecipient, StudentConsent, AgeGroup } from '@/types/app';
 import { loadDailyHistory } from '@/hooks/useSessionTimer';
-import defaultSchoolLogo from '@/assets/school-logo.png';
+import defaultSchoolLogo from '@/assets/focas-logo.png';
 
 export interface SchoolSettings {
   schoolName: string;
