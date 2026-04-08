@@ -125,6 +125,8 @@ export function useSessionTimer(): SessionTimerResult {
         sessionStartedAt: null,
       };
       persistSessionData(updated);
+      // Also write to daily history for weekly chart
+      recordMinutesToHistory(prev.date, elapsedMinutes);
       return updated;
     });
     return elapsedMinutes;
