@@ -136,7 +136,7 @@ const MvpSettingsPage = () => {
           transition={{ delay: 0.25 }}
           className="text-xs text-muted-foreground text-center mt-6"
         >
-          Fócas v1.0.0 (MVP) · © 2025 Fócas Education
+          Fócas v1.0.0 (MVP) · © 2026 Fócas Education
         </motion.p>
 
         <motion.div
