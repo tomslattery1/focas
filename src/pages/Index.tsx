@@ -143,7 +143,7 @@ const Index = () => {
       );
 
     case 'login':
-      return <LoginScreen onLogin={handleLoginComplete} userRole="student" />;
+    // Login removed — go straight to home after consent
 
     case 'complete':
     default:
