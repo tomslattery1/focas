@@ -86,8 +86,8 @@ const ParentDashboard = () => {
           
           if (!existingNotification) {
             const message = child.status === 'red' 
-              ? 'Phone is non-compliant! Immediate attention may be required.'
-              : 'Compliance dropped to warning level. Phone may have been used outside allowed apps.';
+              ? `${child.name} hasn't started a focus session yet today.`
+              : `${child.name} paused their focus session — they might need a little encouragement!`;
             
             const newNotification: Notification = {
               id: Date.now().toString(),
