@@ -5,7 +5,6 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ClassCodeDialog } from '@/components/student/ClassCodeDialog';
 import { useSchoolModeTimer } from '@/hooks/useSchoolModeTimer';
-import { useSchoolModeTimer } from '@/hooks/useSchoolModeTimer';
 import { useApp } from '@/contexts/AppContext';
 import { toast } from 'sonner';
 
