@@ -97,27 +97,10 @@ const MvpSettingsPage = () => {
               <Shield className="w-5 h-5 text-primary" />
             </div>
             <div className="flex-1">
-              <h4 className="font-medium text-foreground text-sm">Let my guardian see what I'm blocking</h4>
-              <p className="text-xs text-muted-foreground">Share your focus setup — they can't change it</p>
+             <h4 className="font-medium text-foreground text-sm">Let my guardian see what I'm blocking</h4>
+              <p className="text-xs text-muted-foreground">Categories only — your apps stay private</p>
             </div>
             <Switch checked={shareBlockedWithGuardian} onCheckedChange={handleShareBlockedChange} />
-          </motion.div>
-
-          {/* Teacher sharing */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.08 }}
-            className="bg-card rounded-xl p-4 border border-border/50 shadow-card flex items-center gap-4"
-          >
-            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-              <BookOpen className="w-5 h-5 text-primary" />
-            </div>
-            <div className="flex-1">
-              <h4 className="font-medium text-foreground text-sm">Let your teacher see you're focused</h4>
-              <p className="text-xs text-muted-foreground">On/off only — your apps stay private</p>
-            </div>
-            <Switch checked={shareWithTeacher} onCheckedChange={handleTeacherShareChange} />
           </motion.div>
 
           {/* Blocked Categories */}
