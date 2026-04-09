@@ -1,13 +1,12 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useApp } from '@/contexts/AppContext';
 import SplashScreen from './SplashScreen';
 import OnboardingScreen from './OnboardingScreen';
-import LoginScreen from './LoginScreen';
 import MvpStatusPage from '@/components/mvp/MvpStatusPage';
 import DataSharingConsent, { ConsentChoices } from '@/components/student/DataSharingConsent';
 import ScreenTimePermission from '@/components/student/ScreenTimePermission';
 import GuardianInvite from '@/components/student/GuardianInvite';
-import GuardianDashboard from './GuardianDashboard';
 import DemoRoleSelector from '@/components/demo/DemoRoleSelector';
 import { toast } from 'sonner';
 import { UserRole } from '@/types/app';
@@ -18,6 +17,7 @@ import { UserRole } from '@/types/app';
  * Demo mode: select role to jump into any dashboard
  */
 const Index = () => {
+  const navigate = useNavigate();
   const {
     onboardingStep,
     setOnboardingStep,
@@ -105,13 +105,11 @@ const Index = () => {
 
   // If authenticated, show the appropriate dashboard
   if (isAuthenticated && onboardingStep === 'complete') {
-    switch (userRole) {
-      case 'parent':
-        return <GuardianDashboard />;
-      case 'student':
-      default:
-        return <MvpStatusPage />;
+    if (userRole === 'parent') {
+      navigate('/guardian', { replace: true });
+      return null;
     }
+    return <MvpStatusPage />;
   }
 
   // Student onboarding flow
