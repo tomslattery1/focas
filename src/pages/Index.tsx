@@ -105,13 +105,11 @@ const Index = () => {
 
   // If authenticated, show the appropriate dashboard
   if (isAuthenticated && onboardingStep === 'complete') {
-    switch (userRole) {
-      case 'parent':
-        return <GuardianDashboard />;
-      case 'student':
-      default:
-        return <MvpStatusPage />;
+    if (userRole === 'parent') {
+      navigate('/guardian', { replace: true });
+      return null;
     }
+    return <MvpStatusPage />;
   }
 
   // Student onboarding flow
