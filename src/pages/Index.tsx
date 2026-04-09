@@ -17,6 +17,7 @@ import { UserRole } from '@/types/app';
  * Demo mode: select role to jump into any dashboard
  */
 const Index = () => {
+  const navigate = useNavigate();
   const {
     onboardingStep,
     setOnboardingStep,
