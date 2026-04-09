@@ -72,18 +72,17 @@ const DataSharingConsent = ({ onConsent, onDecline }: DataSharingConsentProps) =
             <Switch checked={shareWithGuardian} onCheckedChange={setShareWithGuardian} />
           </div>
 
-          {/* Teacher sharing — off by default */}
-          <div className="p-5 rounded-2xl border bg-card flex items-center gap-4">
-            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-              <BookOpen className="w-5 h-5 text-primary" />
+          {/* Teacher sharing — coming soon */}
+          <div className="p-5 rounded-2xl border bg-card/50 flex items-center gap-4 opacity-60">
+            <div className="w-10 h-10 rounded-lg bg-muted/50 flex items-center justify-center shrink-0">
+              <BookOpen className="w-5 h-5 text-muted-foreground" />
             </div>
             <div className="flex-1">
-              <p className="font-medium text-foreground text-sm">Let your teacher see you're focused</p>
+              <p className="font-medium text-foreground text-sm">Teacher sharing</p>
               <p className="text-xs text-muted-foreground mt-0.5">
-                They'll see on/off only — your apps and data stay private
+                Coming in a future version — stay tuned!
               </p>
             </div>
-            <Switch checked={shareWithTeacher} onCheckedChange={setShareWithTeacher} />
           </div>
 
           {/* Privacy note */}
