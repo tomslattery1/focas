@@ -185,7 +185,8 @@ const MvpStatusPage = () => {
             ) : (
               <>
                 <span className="text-4xl font-bold text-foreground">{liveScore}%</span>
-                <span className="text-xs text-muted-foreground font-medium mt-1">Focus Score</span>
+                <span className="text-xs text-muted-foreground font-medium mt-1">of weekly goal</span>
+                <span className="text-[10px] text-muted-foreground mt-0.5">{weeklyFocusHours.toFixed(1)}h / {targetHours}h</span>
               </>
             )}
           </motion.div>
