@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { MobileLayout } from '@/components/layout/MobileLayout';
 import { ClassCard } from '@/components/schedule/ClassCard';
 import { useApp } from '@/contexts/AppContext';
+import { ManualScheduleSetup } from '@/components/student/ManualScheduleSetup';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
 import { Pencil, School } from 'lucide-react';
@@ -10,7 +11,7 @@ import { SchoolCodeSetup, loadStudentSchedule, type ScheduleSlot } from '@/compo
 import { SubjectEditor } from '@/components/student/SubjectEditor';
 import { ClassPeriod } from '@/types/app';
 
-type SetupPhase = 'view' | 'code-entry' | 'subject-edit';
+type SetupPhase = 'view' | 'code-entry' | 'manual-setup' | 'subject-edit';
 
 const slotsToClassPeriods = (slots: ScheduleSlot[]): ClassPeriod[] => {
   const now = new Date();
@@ -51,8 +52,8 @@ const MvpSchedulePage = () => {
 
   const handleCodeComplete = (slots: ScheduleSlot[]) => {
     if (slots.length === 0) {
-      // Skipped — show default schedule
-      setPhase('view');
+      // Skipped — go to manual setup
+      setPhase('manual-setup');
       return;
     }
     setSavedSlots(slots);
@@ -69,6 +70,22 @@ const MvpSchedulePage = () => {
       <MobileLayout>
         <div className="px-5 pt-14 pb-6 flex flex-col justify-center min-h-[60vh]">
           <SchoolCodeSetup onComplete={handleCodeComplete} />
+        </div>
+      </MobileLayout>
+    );
+  }
+
+  if (phase === 'manual-setup') {
+    return (
+      <MobileLayout>
+        <div className="px-5 pt-14 pb-6">
+          <ManualScheduleSetup
+            onComplete={(slots) => {
+              setSavedSlots(slots);
+              setPhase('subject-edit');
+            }}
+            onBack={() => setPhase('code-entry')}
+          />
         </div>
       </MobileLayout>
     );
