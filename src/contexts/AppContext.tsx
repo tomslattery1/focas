@@ -387,7 +387,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         dismissParentNotification,
         dismissAllParentNotifications,
         isFocasModeActive,
-        setFocasModeActive,
+        setFocasModeActive: (active: boolean) => { localStorage.setItem('focas_mode_active', String(active)); setFocasModeActive(active); },
         focusStatus,
         setFocusStatus,
         todayStats,
