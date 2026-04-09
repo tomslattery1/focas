@@ -3,20 +3,28 @@ import { FileText, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
-/**
- * Terms of Service Page - Apple App Store Compliance
- * 
- * Required for Apple submission to define:
- * - Terms of use
- * - User responsibilities
- * - School supervision context
- */
+const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
+  <section>
+    <h3 className="text-lg font-semibold mb-3">{title}</h3>
+    {children}
+  </section>
+);
+
+const P = ({ children }: { children: React.ReactNode }) => (
+  <p className="text-sm text-muted-foreground mb-3">{children}</p>
+);
+
+const UL = ({ items }: { items: string[] }) => (
+  <ul className="text-sm text-muted-foreground space-y-1 list-disc pl-4 mb-3">
+    {items.map((item, i) => <li key={i}>{item}</li>)}
+  </ul>
+);
+
 const TermsOfServicePage = () => {
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-xl border-b border-border px-4 py-3">
         <div className="flex items-center gap-3 max-w-2xl mx-auto">
           <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
@@ -24,13 +32,12 @@ const TermsOfServicePage = () => {
           </Button>
           <div>
             <h1 className="text-lg font-semibold">Terms of Service</h1>
-            <p className="text-xs text-muted-foreground">Last updated: January 2025</p>
+            <p className="text-xs text-muted-foreground">Last updated: April 2026</p>
           </div>
         </div>
       </header>
 
       <main className="max-w-2xl mx-auto p-4 pb-24 space-y-6">
-        {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -40,123 +47,100 @@ const TermsOfServicePage = () => {
             <FileText className="w-8 h-8 text-primary" />
           </div>
           <h2 className="text-2xl font-bold mb-2">Terms of Service</h2>
-          <p className="text-muted-foreground">
-            Please read these terms carefully before using Fócas.
-          </p>
+          <P>Please read these terms carefully before using Fócas.</P>
         </motion.div>
 
-        {/* Terms Content */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="prose prose-sm dark:prose-invert max-w-none space-y-6"
+          className="space-y-6"
         >
-          <section>
-            <h3 className="text-lg font-semibold mb-3">1. Acceptance of Terms</h3>
-            <p className="text-sm text-muted-foreground">
-              By downloading, installing, or using Fócas, you agree to be bound by these 
-              Terms of Service. If you do not agree to these terms, do not use the app.
-            </p>
-          </section>
+          <Section title="1. Acceptance">
+            <P>By downloading or using Fócas, you agree to these Terms. If you do not agree, please do not use the app.</P>
+          </Section>
 
-          <section>
-            <h3 className="text-lg font-semibold mb-3">2. Educational Purpose</h3>
-            <p className="text-sm text-muted-foreground">
-              Fócas is designed exclusively for educational use in school settings. The app 
-              helps students manage focus during study time and enables schools to support 
-              student wellbeing. The app is intended to be used under school supervision and 
-              with appropriate parental awareness.
-            </p>
-          </section>
+          <Section title="2. What Fócas Is">
+            <P>
+              Fócas is a personal focus tool that helps students voluntarily limit distracting apps on their own device during study and school hours. It is a student-led, opt-in tool — not a school management or surveillance system. The student is always in control.
+            </P>
+          </Section>
 
-          <section>
-            <h3 className="text-lg font-semibold mb-3">3. Age Requirements</h3>
-            <p className="text-sm text-muted-foreground mb-3">
-              Fócas is intended for students aged 13 and older. If you are under 13:
-            </p>
-            <ul className="text-sm text-muted-foreground space-y-1 list-disc pl-4">
-              <li>You must have verifiable parental consent to use this app</li>
-              <li>Your parent or guardian must review and approve your use</li>
-              <li>Your school must have appropriate policies in place</li>
-            </ul>
-          </section>
+          <Section title="3. Who Can Use Fócas">
+            <P>
+              Fócas is designed for secondary school students aged 12 and older. Users under 16 are encouraged to set up the app together with a parent or guardian. There is no formal age verification — parents and guardians are responsible for ensuring the app is appropriate for their child.
+            </P>
+          </Section>
 
-          <section>
-            <h3 className="text-lg font-semibold mb-3">4. School Supervision</h3>
-            <p className="text-sm text-muted-foreground">
-              This app operates under the supervision of your school. Your school is responsible 
-              for ensuring appropriate use policies are in place and that students understand 
-              how the app is used. Schools must obtain necessary consents before enrolling students.
-            </p>
-          </section>
+          <Section title="4. Student Responsibilities">
+            <P>As a student using Fócas, you agree to:</P>
+            <UL items={[
+              "Use the app honestly and in the spirit it is intended — to support your own focus",
+              "Not share guardian unlock codes with other students to bypass restrictions",
+              "Keep your schedule and settings accurate so the app works as intended",
+            ]} />
+          </Section>
 
-          <section>
-            <h3 className="text-lg font-semibold mb-3">5. User Responsibilities</h3>
-            <p className="text-sm text-muted-foreground mb-3">
-              As a user, you agree to:
-            </p>
-            <ul className="text-sm text-muted-foreground space-y-1 list-disc pl-4">
-              <li>Provide accurate information when creating your account</li>
-              <li>Use the app in accordance with your school's policies</li>
-              <li>Not attempt to circumvent or disable the app's features</li>
-              <li>Respect the privacy of other users</li>
-              <li>Report any technical issues or concerns to your school</li>
-            </ul>
-          </section>
+          <Section title="5. Guardian Responsibilities">
+            <P>As a parent or guardian linked to a student on Fócas, you agree to:</P>
+            <UL items={[
+              "Only use the guardian features to support your child, not to monitor or control them",
+              "Generate unlock codes responsibly and only when genuinely needed",
+              "Respect that the student controls their own app settings",
+            ]} />
+          </Section>
 
-          <section>
-            <h3 className="text-lg font-semibold mb-3">6. Emergency Access</h3>
-            <p className="text-sm text-muted-foreground">
-              Fócas includes an emergency unlock feature. This feature is designed for genuine 
-              emergencies only. Misuse of the emergency feature may result in consequences 
-              as determined by your school's policies.
-            </p>
-          </section>
+          <Section title="6. Screen Time and App Restrictions">
+            <P>
+              Fócas uses Apple's Screen Time API to limit app categories during focus sessions. This requires granting FamilyControls permission during setup. This permission can be revoked at any time through your iPhone's Settings app. Removing the app removes all restrictions immediately.
+            </P>
+          </Section>
 
-          <section>
-            <h3 className="text-lg font-semibold mb-3">7. Data and Privacy</h3>
-            <p className="text-sm text-muted-foreground">
-              Your use of Fócas is also governed by our Privacy Policy. We are committed to 
-              protecting your privacy and only collecting the minimum data necessary to 
-              provide our service.
-            </p>
-          </section>
+          <Section title="7. No Guarantee of Effectiveness">
+            <P>
+              Fócas is a tool to support focus — it is not a guarantee of academic performance or behaviour. The app works best when used voluntarily and consistently. We make no claims about specific outcomes.
+            </P>
+          </Section>
 
-          <section>
-            <h3 className="text-lg font-semibold mb-3">8. No Warranty</h3>
-            <p className="text-sm text-muted-foreground">
-              Fócas is provided "as is" without warranty of any kind. While we strive to 
-              maintain reliable service, we cannot guarantee uninterrupted access or that 
-              the app will be error-free.
-            </p>
-          </section>
+          <Section title="8. Unlock Codes">
+            <P>
+              Guardian unlock codes are provided as a trust-based mechanism to allow early session exit when genuinely needed. They are not intended as a routine bypass of focus sessions.
+            </P>
+          </Section>
 
-          <section>
-            <h3 className="text-lg font-semibold mb-3">9. Limitation of Liability</h3>
-            <p className="text-sm text-muted-foreground">
-              To the maximum extent permitted by law, Fócas and its developers shall not be 
-              liable for any indirect, incidental, or consequential damages arising from 
-              your use of the app.
-            </p>
-          </section>
+          <Section title="9. Data and Privacy">
+            <P>
+              Your use of Fócas is governed by our Privacy Policy. All data is stored locally on your device. We do not operate servers or collect personal information.
+            </P>
+          </Section>
 
-          <section>
-            <h3 className="text-lg font-semibold mb-3">10. Changes to Terms</h3>
-            <p className="text-sm text-muted-foreground">
-              We may update these terms from time to time. Continued use of the app after 
-              changes constitutes acceptance of the new terms. We will notify users of 
-              significant changes through the app.
-            </p>
-          </section>
+          <Section title="10. No Warranty">
+            <P>
+              Fócas is provided as-is. While we work hard to keep it reliable, we cannot guarantee the app will be error-free or uninterrupted at all times.
+            </P>
+          </Section>
 
-          <section>
-            <h3 className="text-lg font-semibold mb-3">11. Contact</h3>
-            <p className="text-sm text-muted-foreground">
-              For questions about these terms, contact your school administrator or email 
-              support@focas.app
-            </p>
-          </section>
+          <Section title="11. Limitation of Liability">
+            <P>
+              To the maximum extent permitted by Irish and EU law, Fócas and its developers are not liable for indirect, incidental, or consequential damages arising from use of the app.
+            </P>
+          </Section>
+
+          <Section title="12. Governing Law">
+            <P>
+              These Terms are governed by the laws of Ireland. Any disputes shall be subject to the exclusive jurisdiction of the Irish courts.
+            </P>
+          </Section>
+
+          <Section title="13. Changes">
+            <P>
+              We may update these Terms as the app evolves. Continued use after changes constitutes acceptance. Significant changes will be notified through the app.
+            </P>
+          </Section>
+
+          <Section title="14. Contact">
+            <P>For questions about these Terms: support@focas.app</P>
+          </Section>
         </motion.div>
       </main>
     </div>

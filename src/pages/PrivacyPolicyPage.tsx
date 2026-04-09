@@ -1,23 +1,30 @@
 import { motion } from 'framer-motion';
-import { Shield, ArrowLeft, Lock, Eye, Trash2, Users } from 'lucide-react';
+import { Shield, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
-/**
- * Privacy Policy Page - Apple App Store Compliance
- * 
- * Required for Apple submission to demonstrate:
- * - What data is collected
- * - How data is used
- * - User rights and controls
- * - Age-appropriate content
- */
+const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
+  <section>
+    <h3 className="text-lg font-semibold mb-3">{title}</h3>
+    {children}
+  </section>
+);
+
+const P = ({ children }: { children: React.ReactNode }) => (
+  <p className="text-sm text-muted-foreground mb-3">{children}</p>
+);
+
+const UL = ({ items }: { items: string[] }) => (
+  <ul className="text-sm text-muted-foreground space-y-1 list-disc pl-4 mb-3">
+    {items.map((item, i) => <li key={i}>{item}</li>)}
+  </ul>
+);
+
 const PrivacyPolicyPage = () => {
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-xl border-b border-border px-4 py-3">
         <div className="flex items-center gap-3 max-w-2xl mx-auto">
           <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
@@ -25,13 +32,12 @@ const PrivacyPolicyPage = () => {
           </Button>
           <div>
             <h1 className="text-lg font-semibold">Privacy Policy</h1>
-            <p className="text-xs text-muted-foreground">Last updated: January 2025</p>
+            <p className="text-xs text-muted-foreground">Last updated: April 2026</p>
           </div>
         </div>
       </header>
 
       <main className="max-w-2xl mx-auto p-4 pb-24 space-y-6">
-        {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -40,158 +46,98 @@ const PrivacyPolicyPage = () => {
           <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
             <Shield className="w-8 h-8 text-primary" />
           </div>
-          <h2 className="text-2xl font-bold mb-2">Your Privacy Matters</h2>
-          <p className="text-muted-foreground">
-            Fócas is designed with privacy at its core. We collect minimal data 
-            and give you control over what you share.
-          </p>
+          <h2 className="text-2xl font-bold mb-2">Your Privacy, Your Control</h2>
+          <P>
+            Fócas is built on a simple principle: you are in control. The app runs entirely on your device. We do not operate servers, collect personal data, or sell information to anyone.
+          </P>
         </motion.div>
 
-        {/* Key Points */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="grid gap-4"
+          className="space-y-6"
         >
-          <div className="p-4 rounded-xl bg-card border border-border">
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <Lock className="w-5 h-5 text-primary" />
-              </div>
-              <div>
-                <h3 className="font-semibold mb-1">What We Collect</h3>
-                <p className="text-sm text-muted-foreground">
-                  Only focus mode status (on/off) and basic account info. 
-                  We never access your apps, messages, photos, or browsing history.
-                </p>
-              </div>
-            </div>
-          </div>
+          <Section title="1. What Fócas Collects">
+            <P>Fócas stores the following data locally on your device only:</P>
+            <UL items={[
+              "Your focus session history (start time, duration, score)",
+              "Your blocked app categories (e.g. Social Media, Games)",
+              "Your gamification progress (streaks, badges, weekly goal)",
+              "Your schedule (subjects and times you enter yourself)",
+              "Your sharing preferences (which you control at any time)",
+            ]} />
+            <P>None of this data leaves your device unless you explicitly choose to share it.</P>
+          </Section>
 
-          <div className="p-4 rounded-xl bg-card border border-border">
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <Eye className="w-5 h-5 text-primary" />
-              </div>
-              <div>
-                <h3 className="font-semibold mb-1">How We Use It</h3>
-                <p className="text-sm text-muted-foreground">
-                  Focus status helps your school support students during study time. 
-                  Teachers see aggregate statistics, not individual activity.
-                </p>
-              </div>
-            </div>
-          </div>
+          <Section title="2. What Fócas Never Collects">
+            <UL items={[
+              "The specific apps installed on your phone",
+              "Your messages, emails, calls, or browsing history",
+              "Your photos, files, or screen content",
+              "Your location or GPS data",
+              "Your contacts or social connections",
+              "Any data without your explicit knowledge and consent",
+            ]} />
+          </Section>
 
-          <div className="p-4 rounded-xl bg-card border border-border">
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <Users className="w-5 h-5 text-primary" />
-              </div>
-              <div>
-                <h3 className="font-semibold mb-1">Who Sees Your Data</h3>
-                <p className="text-sm text-muted-foreground">
-                  Only your school administrators if you opt in. You control whether 
-                  teachers or parents can see your focus status.
-                </p>
-              </div>
-            </div>
-          </div>
+          <Section title="3. Sharing with Guardians">
+            <P>If you choose to share with a parent or guardian, they may see:</P>
+            <UL items={[
+              "Whether you are currently in a Fócas session (on/off only)",
+              "Which app categories you have chosen to block",
+              "Your focus score and streak",
+            ]} />
+            <P>
+              This sharing is entirely opt-in, controlled by you in Settings, and can be turned off at any time. Guardians cannot see specific apps on your device, cannot change your settings remotely, and cannot control your device in any way.
+            </P>
+          </Section>
 
-          <div className="p-4 rounded-xl bg-card border border-border">
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-lg bg-status-red/10 flex items-center justify-center flex-shrink-0">
-                <Trash2 className="w-5 h-5 text-status-red" />
-              </div>
-              <div>
-                <h3 className="font-semibold mb-1">Your Rights</h3>
-                <p className="text-sm text-muted-foreground">
-                  You can delete your account and all data at any time in Settings. 
-                  We comply with GDPR and COPPA regulations.
-                </p>
-              </div>
-            </div>
-          </div>
-        </motion.div>
+          <Section title="4. Sharing with Teachers">
+            <P>
+              Teacher sharing is coming in a future version. When available, it will follow the same opt-in, student-controlled model described above.
+            </P>
+          </Section>
 
-        {/* Detailed Policy */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="prose prose-sm dark:prose-invert max-w-none"
-        >
-          <h3 className="text-lg font-semibold mt-8 mb-4">Full Privacy Policy</h3>
-          
-          <h4 className="font-medium mt-6 mb-2">1. Information We Collect</h4>
-          <p className="text-sm text-muted-foreground mb-4">
-            Fócas collects only the minimum information necessary to provide our focus management service:
-          </p>
-          <ul className="text-sm text-muted-foreground space-y-1 mb-4 list-disc pl-4">
-            <li>Account information (name, school email)</li>
-            <li>Focus mode status (active/inactive timestamps)</li>
-            <li>Device identifiers for authentication</li>
-            <li>Preferences and settings you configure</li>
-          </ul>
+          <Section title="5. School Codes">
+            <P>
+              If you enter a school code to load a timetable template, this code is used only to pre-populate your schedule. No data is sent to your school and your school has no access to your app or device.
+            </P>
+          </Section>
 
-          <h4 className="font-medium mt-6 mb-2">2. Information We Never Collect</h4>
-          <p className="text-sm text-muted-foreground mb-4">
-            To protect your privacy, we explicitly do not collect:
-          </p>
-          <ul className="text-sm text-muted-foreground space-y-1 mb-4 list-disc pl-4">
-            <li>Contents of your messages, emails, or calls</li>
-            <li>Photos, videos, or files on your device</li>
-            <li>Browsing history or search queries</li>
-            <li>App usage details or screen content</li>
-            <li>Location data or GPS coordinates</li>
-            <li>Contacts or social connections</li>
-          </ul>
+          <Section title="6. Apple Screen Time API">
+            <P>
+              Fócas uses Apple's Screen Time API (FamilyControls, ManagedSettings, DeviceActivity frameworks) to limit distracting apps during focus sessions. This operates entirely through Apple's own privacy-protected system. Fócas never inspects which specific apps are on your device and never accesses app content.
+            </P>
+          </Section>
 
-          <h4 className="font-medium mt-6 mb-2">3. Age Requirements</h4>
-          <p className="text-sm text-muted-foreground mb-4">
-            Fócas is designed for students aged 13 and older. Users under 13 require 
-            verified parental consent before using the app. We comply with the Children's 
-            Online Privacy Protection Act (COPPA) and similar regulations.
-          </p>
+          <Section title="7. Children and Minors">
+            <P>
+              Fócas is designed for secondary school students aged 12 and older. We do not knowingly collect personal data from any user. All data stays on the student's device. Parents and guardians are encouraged to set up the app together with their child.
+            </P>
+          </Section>
 
-          <h4 className="font-medium mt-6 mb-2">4. Data Sharing</h4>
-          <p className="text-sm text-muted-foreground mb-4">
-            Your focus status may be shared with:
-          </p>
-          <ul className="text-sm text-muted-foreground space-y-1 mb-4 list-disc pl-4">
-            <li>Your school's designated administrators (required)</li>
-            <li>Your teachers (only if you opt in)</li>
-            <li>Your parents/guardians (only if you opt in)</li>
-          </ul>
-          <p className="text-sm text-muted-foreground mb-4">
-            We never sell your data to third parties or use it for advertising.
-          </p>
+          <Section title="8. GDPR">
+            <P>
+              Fócas is developed in Ireland and is designed to comply with the General Data Protection Regulation (GDPR). As all data is stored locally on your device and no personal data is transmitted to our servers, the data minimisation and storage limitation principles are met by design.
+            </P>
+          </Section>
 
-          <h4 className="font-medium mt-6 mb-2">5. Data Security</h4>
-          <p className="text-sm text-muted-foreground mb-4">
-            All data is encrypted in transit and at rest. We use industry-standard 
-            security practices and regularly audit our systems. Data is stored on 
-            secure servers within the European Union.
-          </p>
+          <Section title="9. Your Rights">
+            <P>
+              You can delete all Fócas data at any time by tapping "Restart" in Settings. This clears all locally stored data from your device immediately and permanently.
+            </P>
+          </Section>
 
-          <h4 className="font-medium mt-6 mb-2">6. Your Rights</h4>
-          <p className="text-sm text-muted-foreground mb-4">
-            Under GDPR and applicable privacy laws, you have the right to:
-          </p>
-          <ul className="text-sm text-muted-foreground space-y-1 mb-4 list-disc pl-4">
-            <li>Access your personal data</li>
-            <li>Correct inaccurate data</li>
-            <li>Delete your account and all associated data</li>
-            <li>Export your data in a portable format</li>
-            <li>Withdraw consent at any time</li>
-          </ul>
+          <Section title="10. Changes to This Policy">
+            <P>
+              We will update this policy as the app evolves. Significant changes will be communicated through the app. Continued use after changes constitutes acceptance.
+            </P>
+          </Section>
 
-          <h4 className="font-medium mt-6 mb-2">7. Contact Us</h4>
-          <p className="text-sm text-muted-foreground mb-4">
-            For privacy inquiries or to exercise your rights, contact your school 
-            administrator or email privacy@focas.app
-          </p>
+          <Section title="11. Contact">
+            <P>For privacy questions: privacy@focas.app</P>
+          </Section>
         </motion.div>
       </main>
     </div>
