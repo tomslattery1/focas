@@ -41,6 +41,18 @@ const MvpStatusPage = () => {
   const [remainingSeconds, setRemainingSeconds] = useState(0);
   const sessionStartRef = useRef<number | null>(null);
 
+  // Restore session start time from localStorage on mount
+  useEffect(() => {
+    if (isFocasModeActive) {
+      try {
+        const sessionData = JSON.parse(localStorage.getItem('focas_session_data') || '{}');
+        if (sessionData.sessionStartedAt) {
+          sessionStartRef.current = new Date(sessionData.sessionStartedAt).getTime();
+        }
+      } catch {}
+    }
+  }, []);
+
   useEffect(() => {
     localStorage.setItem(DURATION_STORAGE_KEY, String(focusDuration));
   }, [focusDuration]);
