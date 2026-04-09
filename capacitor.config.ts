@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.tomlattery.focas',
+  appId: 'ie.tomlattery.focas',
   appName: 'Fócas',
   webDir: 'dist',
   ios: {
