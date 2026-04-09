@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { CheckCircle, BookOpen, Coffee, UtensilsCrossed } from 'lucide-react';
+import { CheckCircle, BookOpen, Coffee, UtensilsCrossed, Merge, Unlink } from 'lucide-react';
 import { type ScheduleSlot, saveStudentSchedule } from './SchoolCodeSetup';
 
 interface SubjectEditorProps {
@@ -17,6 +17,49 @@ export const SubjectEditor = ({ slots: initialSlots, onComplete }: SubjectEditor
     setSlots(prev => prev.map(s => s.id === id ? { ...s, [field]: value } : s));
   };
 
+  const mergeWithNext = (index: number) => {
+    setSlots(prev => {
+      const updated = [...prev];
+      const current = updated[index];
+      const next = updated[index + 1];
+      if (!current || !next || current.type !== 'class' || next.type !== 'class') return prev;
+
+      // Merge: extend current to cover next, remove next
+      const mergedLabel = current.label.includes('–')
+        ? current.label.replace(/–\s*\d+/, `– ${next.label.replace('Period ', '')}`)
+        : `${current.label} – ${next.label.replace('Period ', '')}`;
+
+      updated[index] = {
+        ...current,
+        endTime: next.endTime,
+        label: mergedLabel,
+        // Store original IDs so we can unmerge
+        mergedIds: [...(current.mergedIds || [current.id]), next.id],
+      } as ScheduleSlot & { mergedIds: string[] };
+
+      updated.splice(index + 1, 1);
+      return updated;
+    });
+  };
+
+  const unmergeSlot = (index: number) => {
+    const slot = slots[index] as ScheduleSlot & { mergedIds?: string[] };
+    if (!slot.mergedIds || slot.mergedIds.length < 2) return;
+
+    // Find the original slots from initialSlots
+    const originals = slot.mergedIds
+      .map(id => initialSlots.find(s => s.id === id))
+      .filter(Boolean) as ScheduleSlot[];
+
+    if (originals.length < 2) return;
+
+    setSlots(prev => {
+      const updated = [...prev];
+      updated.splice(index, 1, ...originals);
+      return updated;
+    });
+  };
+
   const handleSave = () => {
     saveStudentSchedule(slots);
     onComplete(slots);
@@ -24,6 +67,16 @@ export const SubjectEditor = ({ slots: initialSlots, onComplete }: SubjectEditor
 
   const classSlots = slots.filter(s => s.type === 'class');
   const filledCount = classSlots.filter(s => s.subject.trim()).length;
+
+  // Check if a class slot can be merged with the next slot
+  const canMergeWithNext = (index: number): boolean => {
+    const next = slots[index + 1];
+    return !!next && next.type === 'class';
+  };
+
+  const isMerged = (slot: ScheduleSlot): boolean => {
+    return !!((slot as any).mergedIds && (slot as any).mergedIds.length >= 2);
+  };
 
   return (
     <motion.div
@@ -34,12 +87,12 @@ export const SubjectEditor = ({ slots: initialSlots, onComplete }: SubjectEditor
       <div className="text-center mb-2">
         <h3 className="text-lg font-semibold text-foreground">Add Your Subjects</h3>
         <p className="text-xs text-muted-foreground mt-1">
-          {filledCount}/{classSlots.length} subjects added
+          {filledCount}/{classSlots.length} subjects added · Tap <Merge className="w-3 h-3 inline" /> to combine periods
         </p>
       </div>
 
       <div className="space-y-2 max-h-[50vh] overflow-y-auto pr-1">
-        {slots.map((slot) => {
+        {slots.map((slot, index) => {
           if (slot.type === 'break') {
             return (
               <div key={slot.id} className="flex items-center gap-2 px-3 py-2 rounded-xl bg-muted/50 text-muted-foreground">
@@ -59,18 +112,47 @@ export const SubjectEditor = ({ slots: initialSlots, onComplete }: SubjectEditor
             );
           }
 
+          const merged = isMerged(slot);
+
           return (
             <motion.div
               key={slot.id}
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
-              className="rounded-xl border border-border/50 bg-card p-3 space-y-2"
+              className={`rounded-xl border bg-card p-3 space-y-2 ${merged ? 'border-primary/30 bg-primary/5' : 'border-border/50'}`}
             >
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <BookOpen className="w-3.5 h-3.5" />
-                <span className="font-medium">{slot.label}</span>
-                <span>·</span>
-                <span>{slot.startTime} – {slot.endTime}</span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <BookOpen className="w-3.5 h-3.5" />
+                  <span className="font-medium">{slot.label}</span>
+                  <span>·</span>
+                  <span>{slot.startTime} – {slot.endTime}</span>
+                  {merged && (
+                    <span className="text-[10px] font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded-full">
+                      Double
+                    </span>
+                  )}
+                </div>
+                <div className="flex gap-1">
+                  {merged && (
+                    <button
+                      onClick={() => unmergeSlot(index)}
+                      className="p-1 rounded-md text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
+                      title="Split periods"
+                    >
+                      <Unlink className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                  {!merged && canMergeWithNext(index) && (
+                    <button
+                      onClick={() => mergeWithNext(index)}
+                      className="p-1 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+                      title="Combine with next period"
+                    >
+                      <Merge className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
               </div>
               <Input
                 placeholder="Subject (e.g. Maths, Irish, Biology)"
