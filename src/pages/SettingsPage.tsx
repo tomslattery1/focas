@@ -335,8 +335,7 @@ const ScreenTimeContent = () => {
         {!isNative && (
           <div className="p-3 rounded-xl bg-status-amber/10 border border-status-amber/20 mb-4">
             <p className="text-sm text-status-amber">
-              <strong>Note:</strong> Full Screen Time integration requires the native iOS app. 
-              This is a simulated permission for demo purposes.
+              <strong>Note:</strong> Full Screen Time integration requires the native iOS app.
             </p>
           </div>
         )}

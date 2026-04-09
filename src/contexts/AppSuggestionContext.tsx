@@ -6,55 +6,20 @@ import {
 } from '@/types/app-suggestions';
 
 interface AppSuggestionContextType {
-  // Teacher/Admin: create and manage suggestions
   suggestions: AppBlockingSuggestion[];
   createSuggestion: (suggestion: Omit<AppBlockingSuggestion, 'id' | 'createdAt'>) => void;
   deleteSuggestion: (id: string) => void;
-  
-  // Student: pending suggestions
   pendingSuggestions: AppBlockingSuggestion[];
   respondToSuggestion: (suggestionId: string, status: 'accepted' | 'rejected') => void;
-  
-  // Teacher/Admin: view responses
   studentResponses: StudentAppSuggestionResponse[];
   getStatsForSuggestion: (suggestionId: string) => AppSuggestionStats;
 }
 
 const AppSuggestionContext = createContext<AppSuggestionContextType | undefined>(undefined);
 
-// Mock initial suggestions for demo
-const initialSuggestions: AppBlockingSuggestion[] = [
-  {
-    id: '1',
-    appName: 'TikTok',
-    appIcon: '📱',
-    reason: 'Highly distracting during study periods',
-    suggestedBy: 'Tom Slattery',
-    suggestedByRole: 'teacher',
-    targetYearGroups: ['1', '2', '3'],
-    createdAt: new Date(Date.now() - 86400000),
-  },
-  {
-    id: '2',
-    appName: 'Roblox',
-    appIcon: '🎮',
-    reason: 'Gaming app - consider limiting during school hours',
-    suggestedBy: 'School Admin',
-    suggestedByRole: 'admin',
-    targetYearGroups: ['1', '2', '3', '4', '5', '6'],
-    createdAt: new Date(Date.now() - 172800000),
-  },
-];
-
 export const AppSuggestionProvider = ({ children }: { children: ReactNode }) => {
-  const [suggestions, setSuggestions] = useState<AppBlockingSuggestion[]>(initialSuggestions);
-  const [studentResponses, setStudentResponses] = useState<StudentAppSuggestionResponse[]>([
-    // Mock responses
-    { suggestionId: '1', studentId: 's1', studentName: 'Aoife Murphy', status: 'accepted', respondedAt: new Date() },
-    { suggestionId: '1', studentId: 's2', studentName: 'Ciarán O\'Brien', status: 'accepted', respondedAt: new Date() },
-    { suggestionId: '1', studentId: 's3', studentName: 'Saoirse Kelly', status: 'rejected', respondedAt: new Date() },
-    { suggestionId: '2', studentId: 's1', studentName: 'Aoife Murphy', status: 'accepted', respondedAt: new Date() },
-  ]);
+  const [suggestions, setSuggestions] = useState<AppBlockingSuggestion[]>([]);
+  const [studentResponses, setStudentResponses] = useState<StudentAppSuggestionResponse[]>([]);
 
   const createSuggestion = (suggestion: Omit<AppBlockingSuggestion, 'id' | 'createdAt'>) => {
     const newSuggestion: AppBlockingSuggestion = {
@@ -69,7 +34,6 @@ export const AppSuggestionProvider = ({ children }: { children: ReactNode }) => 
     setSuggestions(prev => prev.filter(s => s.id !== id));
   };
 
-  // For demo, show all suggestions as pending for students
   const pendingSuggestions = suggestions;
 
   const respondToSuggestion = (suggestionId: string, status: 'accepted' | 'rejected') => {
@@ -86,10 +50,10 @@ export const AppSuggestionProvider = ({ children }: { children: ReactNode }) => 
   const getStatsForSuggestion = (suggestionId: string): AppSuggestionStats => {
     const responses = studentResponses.filter(r => r.suggestionId === suggestionId);
     return {
-      total: responses.length + 5, // Mock: assume some haven't responded
+      total: responses.length,
       accepted: responses.filter(r => r.status === 'accepted').length,
       rejected: responses.filter(r => r.status === 'rejected').length,
-      pending: 5, // Mock pending count
+      pending: 0,
     };
   };
 
