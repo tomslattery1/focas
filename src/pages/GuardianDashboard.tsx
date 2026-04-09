@@ -169,7 +169,7 @@ const GuardianDashboard = () => {
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-muted-foreground">Your Children</p>
+                  <p className="text-sm text-muted-foreground">Your Students</p>
                   <p className="text-3xl font-bold text-primary">{children.length}</p>
                 </div>
                 <div className="text-right">
@@ -183,7 +183,7 @@ const GuardianDashboard = () => {
 
             <div className="space-y-4">
               <div>
-                <h3 className="text-lg font-semibold mb-1">Your Children</h3>
+                <h3 className="text-lg font-semibold mb-1">Your Students</h3>
                 <p className="text-sm text-muted-foreground mb-4">Support their focus journey</p>
               </div>
 
@@ -217,19 +217,17 @@ const GuardianDashboard = () => {
                           </div>
                         </div>
 
-                        {localStorage.getItem('focas_share_blocked_with_guardian') === 'true' && (
-                          <div className="mt-3 pt-3 border-t">
-                            <p className="text-xs text-muted-foreground mb-1.5">Blocking during sessions:</p>
-                            <div className="flex flex-wrap gap-1.5">
-                              {getBlockedCategories().map((cat) => (
-                                <Badge key={cat} variant="secondary" className="text-xs font-normal">{cat}</Badge>
-                              ))}
-                              {getBlockedCategories().length === 0 && (
-                                <span className="text-xs text-muted-foreground italic">None selected</span>
-                              )}
-                            </div>
+                        <div className="mt-3 pt-3 border-t">
+                          <p className="text-xs text-muted-foreground mb-1.5">Blocking during sessions:</p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {getBlockedCategories().map((cat) => (
+                              <Badge key={cat} variant="secondary" className="text-xs font-normal">{cat}</Badge>
+                            ))}
+                            {getBlockedCategories().length === 0 && (
+                              <span className="text-xs text-muted-foreground italic">None selected</span>
+                            )}
                           </div>
-                        )}
+                        </div>
 
                         <div className="mt-3 pt-3 border-t flex items-center justify-end">
                           <p className="text-xs text-muted-foreground">
@@ -250,7 +248,7 @@ const GuardianDashboard = () => {
             <div>
               <h3 className="text-lg font-semibold mb-1">Unlock Codes</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Generate a temporary code for your child to end their Fócas session early when needed.
+                Generate a temporary code for your student to end their Fócas session early when needed.
               </p>
             </div>
             {children.map((child, index) => (
@@ -265,7 +263,7 @@ const GuardianDashboard = () => {
           <div className="space-y-4">
             <div>
               <h3 className="text-lg font-semibold mb-1">Send Encouragement</h3>
-              <p className="text-sm text-muted-foreground mb-4">Send a quick message of support to your children</p>
+              <p className="text-sm text-muted-foreground mb-4">Send a quick message of support to your student</p>
             </div>
             {children.map((child, index) => (
               <motion.div key={child.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }}>
@@ -279,13 +277,13 @@ const GuardianDashboard = () => {
           <div className="space-y-4">
             <div>
               <h3 className="text-lg font-semibold mb-1">Recent Activity</h3>
-              <p className="text-sm text-muted-foreground mb-4">See how your children's focus sessions are going</p>
+              <p className="text-sm text-muted-foreground mb-4">See how your student's focus sessions are going</p>
             </div>
             <Card>
               <CardContent className="p-8 text-center">
                 <BookOpen className="w-10 h-10 text-muted-foreground/40 mx-auto mb-3" />
                 <p className="text-sm text-muted-foreground">
-                  Focus activity will appear here once your child starts using Fócas.
+                  Focus activity will appear here once your student starts using Fócas.
                 </p>
               </CardContent>
             </Card>
