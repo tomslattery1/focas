@@ -36,7 +36,7 @@ export const ManualScheduleSetup = ({ onComplete, onBack }: ManualScheduleSetupP
   const [lunchDuration, setLunchDuration] = useState(45);
   const [periodsBeforeBreak, setPeriodsBeforeBreak] = useState(3);
   const [periodsBeforeLunch, setPeriodsBeforeLunch] = useState(3);
-  const [periodsAfterLunch, setPeriodsAfterLunch] = useState(3);
+  const [periodsAfterLunch, setPeriodsAfterLunch] = useState(2);
 
   const totalPeriods = periodsBeforeBreak + periodsBeforeLunch + periodsAfterLunch;
 
@@ -239,21 +239,21 @@ export const ManualScheduleSetup = ({ onComplete, onBack }: ManualScheduleSetupP
         <Label className="text-sm font-medium">Number of classes</Label>
         <div className="grid grid-cols-3 gap-3">
           <CounterField
-            label="Before break"
+            label="Morning"
             value={periodsBeforeBreak}
             onChange={setPeriodsBeforeBreak}
             min={1}
             max={5}
           />
           <CounterField
-            label="Before lunch"
+            label="Mid-morning"
             value={periodsBeforeLunch}
             onChange={setPeriodsBeforeLunch}
             min={1}
             max={5}
           />
           <CounterField
-            label="After lunch"
+            label="Afternoon"
             value={periodsAfterLunch}
             onChange={setPeriodsAfterLunch}
             min={1}
