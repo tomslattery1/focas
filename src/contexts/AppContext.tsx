@@ -262,7 +262,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     setParentNotifications(prev => prev.map(n => ({ ...n, read: true })));
   };
 
-  const [isFocasModeActive, setFocasModeActive] = useState(false);
+  const [isFocasModeActive, setFocasModeActive] = useState(() => {
+    try { return localStorage.getItem('focas_mode_active') === 'true'; } catch { return false; }
+  });
   const [focusStatus, setFocusStatus] = useState<FocusStatus>('green');
   const [isEmergencyUnlocked, setEmergencyUnlocked] = useState(false);
   const [announcements, setAnnouncements] = useState<Announcement[]>(defaultAnnouncements);
