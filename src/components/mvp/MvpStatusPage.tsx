@@ -190,7 +190,7 @@ const MvpStatusPage = () => {
             </div>
             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[hsl(var(--status-green-light))] border border-[hsl(var(--status-green)/0.2)]">
               <Target className="w-3.5 h-3.5 text-[hsl(var(--status-green))]" />
-              <span className="text-xs font-semibold text-foreground">Goal: {gamification.weeklyGoal.targetPercentage}%</span>
+              <span className="text-xs font-semibold text-foreground">Goal: {gamification.weeklyGoal.targetHours}h/wk</span>
             </div>
           </div>
         </motion.div>

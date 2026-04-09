@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 const AchievementsPage = () => {
   const { state, setWeeklyGoal } = useGamification();
-  const [goalValue, setGoalValue] = useState(state.weeklyGoal.targetPercentage);
+  const [goalValue, setGoalValue] = useState(state.weeklyGoal.targetHours);
 
   const unlockedBadges = state.badges.filter(b => b.unlockedAt);
   const lockedBadges = state.badges.filter(b => !b.unlockedAt);
@@ -18,7 +18,7 @@ const AchievementsPage = () => {
   };
 
   const handleGoalCommit = () => {
-    if (goalValue !== state.weeklyGoal.targetPercentage) {
+    if (goalValue !== state.weeklyGoal.targetHours) {
       setWeeklyGoal(goalValue);
     }
   };
@@ -76,22 +76,22 @@ const AchievementsPage = () => {
           <div className="bg-card rounded-2xl p-5 border border-border/50 shadow-card">
             <div className="flex items-center justify-between mb-4">
               <p className="text-sm text-foreground">
-                I want to reach <span className="font-bold text-[hsl(var(--status-green))]">{goalValue}%</span> focus this week
+                I want to focus for <span className="font-bold text-[hsl(var(--status-green))]">{goalValue} hour{goalValue !== 1 ? 's' : ''}</span> this week
               </p>
             </div>
             <Slider
               value={[goalValue]}
               onValueChange={handleGoalChange}
               onValueCommit={() => handleGoalCommit()}
-              min={50}
-              max={100}
-              step={5}
+              min={1}
+              max={20}
+              step={1}
               className="mb-2"
             />
             <div className="flex justify-between text-[10px] text-muted-foreground">
-              <span>50%</span>
-              <span>75%</span>
-              <span>100%</span>
+              <span>1h</span>
+              <span>10h</span>
+              <span>20h</span>
             </div>
             <p className="text-xs text-muted-foreground mt-3 text-center">
               Set a goal that feels right for you — every bit of focus counts.

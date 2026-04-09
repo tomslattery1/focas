@@ -33,7 +33,6 @@ const parseTime = (timeStr: string): { hours: number; minutes: number } => {
   return { hours, minutes };
 };
 
-// Get admin-configured school hours
 const getAdminSchedule = (): { dayOfWeek: number; startTime: string; endTime: string; isActive: boolean }[] => {
   const saved = localStorage.getItem('focas_admin_schedule');
   if (saved) {
@@ -43,7 +42,6 @@ const getAdminSchedule = (): { dayOfWeek: number; startTime: string; endTime: st
       return [];
     }
   }
-  // Default school hours
   return [
     { dayOfWeek: 1, startTime: '08:50', endTime: '15:05', isActive: true },
     { dayOfWeek: 2, startTime: '08:50', endTime: '15:05', isActive: true },
@@ -53,7 +51,6 @@ const getAdminSchedule = (): { dayOfWeek: number; startTime: string; endTime: st
   ];
 };
 
-// Check if current time is within school hours
 export const isWithinSchoolHours = (now: Date = new Date()): boolean => {
   const adminSchedule = getAdminSchedule();
   const todaySchedule = adminSchedule.find(s => s.dayOfWeek === now.getDay());
@@ -85,78 +82,38 @@ const isWithinSchedule = (schedule: ScheduleConfig, now: Date): boolean => {
 };
 
 export const requestNotificationPermission = async (): Promise<boolean> => {
-  if (!('Notification' in window)) {
-    console.log('This browser does not support notifications');
-    return false;
-  }
-
-  if (Notification.permission === 'granted') {
-    return true;
-  }
-
+  if (!('Notification' in window)) return false;
+  if (Notification.permission === 'granted') return true;
   if (Notification.permission !== 'denied') {
     const permission = await Notification.requestPermission();
     return permission === 'granted';
   }
-
   return false;
 };
 
-// Only send notifications during school hours
 const sendPushNotification = (title: string, body: string) => {
-  // Only send if within school hours
-  if (!isWithinSchoolHours()) {
-    console.log('Notification suppressed - outside school hours');
-    return;
-  }
-  
+  if (!isWithinSchoolHours()) return;
   if (Notification.permission === 'granted') {
-    new Notification(title, {
-      body,
-      icon: '/favicon.ico',
-      tag: 'school-mode-reminder',
-    });
+    new Notification(title, { body, icon: '/favicon.ico', tag: 'school-mode-reminder' });
   }
 };
 
 export const useScheduleNotifications = (
   isSchoolModeActive: boolean,
   onActivate: () => void,
-  demoMode: boolean = false,
   onMissedSession?: (childName: string, message: string) => void
 ) => {
   const [pendingSession, setPendingSession] = useState<PendingSession | null>(null);
   const [hasNotificationPermission, setHasNotificationPermission] = useState(false);
-  const [demoDismissed, setDemoDismissed] = useState(false);
   const reminderIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const lastNotifiedScheduleRef = useRef<string | null>(null);
 
-  // Request notification permission on mount
   useEffect(() => {
     requestNotificationPermission().then(setHasNotificationPermission);
   }, []);
 
-  // Demo mode: show pending session immediately (only if not dismissed)
-  useEffect(() => {
-    if (demoMode && !isSchoolModeActive && !pendingSession && !demoDismissed) {
-      const now = new Date();
-      const demoSession: PendingSession = {
-        id: 'demo-session',
-        dayOfWeek: now.getDay(),
-        startTime: `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`,
-        endTime: `${String(now.getHours() + 1).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`,
-        triggeredAt: now,
-      };
-      setPendingSession(demoSession);
-    }
-  }, [demoMode, isSchoolModeActive, pendingSession, demoDismissed]);
-
-  // Check for active schedules
   const checkSchedules = useCallback(() => {
-    if (demoMode) return; // Skip real schedule checks in demo mode
-    
     if (isSchoolModeActive) {
-      // Already active, clear pending session
       setPendingSession(null);
       lastNotifiedScheduleRef.current = null;
       if (reminderIntervalRef.current) {
@@ -169,7 +126,6 @@ export const useScheduleNotifications = (
     const schedules = getTeacherSchedules();
     const now = new Date();
     
-    // Only check schedules if within school hours
     if (!isWithinSchoolHours(now)) {
       setPendingSession(null);
       lastNotifiedScheduleRef.current = null;
@@ -181,7 +137,6 @@ export const useScheduleNotifications = (
     if (activeSchedule) {
       const scheduleKey = `${activeSchedule.id}-${now.toDateString()}`;
       
-      // Only notify if we haven't already notified for this schedule today
       if (lastNotifiedScheduleRef.current !== scheduleKey) {
         lastNotifiedScheduleRef.current = scheduleKey;
         
@@ -194,29 +149,20 @@ export const useScheduleNotifications = (
         };
         
         setPendingSession(session);
-        
-        // Send initial push notification (only during school hours)
-        sendPushNotification(
-          '📚 Study Mode is ready!',
-          'Tap here to start your study session.'
-        );
+        sendPushNotification('📚 Study Mode is ready!', 'Tap here to start your study session.');
       }
     } else {
-      // No active schedule
       setPendingSession(null);
       lastNotifiedScheduleRef.current = null;
     }
-  }, [isSchoolModeActive, demoMode]);
+  }, [isSchoolModeActive]);
 
-  // Set up reminder interval when there's a pending session
   useEffect(() => {
-    if (pendingSession && !isSchoolModeActive && !demoMode) {
-      // Clear any existing interval
+    if (pendingSession && !isSchoolModeActive) {
       if (reminderIntervalRef.current) {
         clearInterval(reminderIntervalRef.current);
       }
 
-      // Set up 5-minute reminder
       reminderIntervalRef.current = setInterval(() => {
         const schedules = getTeacherSchedules();
         const now = new Date();
@@ -225,17 +171,10 @@ export const useScheduleNotifications = (
         );
 
         if (stillActive && !isSchoolModeActive) {
-          sendPushNotification(
-            '⏰ Reminder: Study Mode waiting',
-            'Your scheduled study session is still waiting to be activated.'
-          );
+          sendPushNotification('⏰ Reminder: Study Mode waiting', 'Your scheduled study session is still waiting to be activated.');
         } else if (!stillActive && !isSchoolModeActive) {
-          // Schedule ended without activation - notify parent about missed session
           if (onMissedSession) {
-            onMissedSession(
-              'Your child',
-              'Did not activate Study Mode during a scheduled session.'
-            );
+            onMissedSession('Your child', 'Did not activate Study Mode during a scheduled session.');
           }
           setPendingSession(null);
           if (reminderIntervalRef.current) {
@@ -243,7 +182,6 @@ export const useScheduleNotifications = (
             reminderIntervalRef.current = null;
           }
         } else {
-          // Mode was activated
           setPendingSession(null);
           if (reminderIntervalRef.current) {
             clearInterval(reminderIntervalRef.current);
@@ -259,24 +197,17 @@ export const useScheduleNotifications = (
         }
       };
     }
-  }, [pendingSession, isSchoolModeActive, demoMode]);
+  }, [pendingSession, isSchoolModeActive]);
 
-  // Check schedules every minute
   useEffect(() => {
-    if (demoMode) return;
-    
-    checkSchedules(); // Initial check
-    
+    checkSchedules();
     const interval = setInterval(checkSchedules, 60 * 1000);
     return () => clearInterval(interval);
-  }, [checkSchedules, demoMode]);
+  }, [checkSchedules]);
 
   const dismissPendingSession = useCallback(() => {
     setPendingSession(null);
-    if (demoMode) {
-      setDemoDismissed(true);
-    }
-  }, [demoMode]);
+  }, []);
 
   const activateFromNotification = useCallback(() => {
     onActivate();
