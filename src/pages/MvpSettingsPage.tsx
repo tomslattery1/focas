@@ -23,6 +23,14 @@ const MvpSettingsPage = () => {
   const [shareWithTeacher, setShareWithTeacher] = useState(() => {
     return localStorage.getItem('focas_share_with_teacher') === 'true';
   });
+  const [shareBlockedWithGuardian, setShareBlockedWithGuardian] = useState(() => {
+    return localStorage.getItem('focas_share_blocked_with_guardian') === 'true';
+  });
+
+  const handleShareBlockedChange = (checked: boolean) => {
+    setShareBlockedWithGuardian(checked);
+    localStorage.setItem('focas_share_blocked_with_guardian', String(checked));
+  };
 
   const handleTeacherShareChange = (checked: boolean) => {
     setShareWithTeacher(checked);
@@ -75,7 +83,24 @@ const MvpSettingsPage = () => {
               <h4 className="font-medium text-foreground text-sm">Let your guardian cheer you on</h4>
               <p className="text-xs text-muted-foreground">They see on/off only — never your apps</p>
             </div>
-            <Switch checked={hasOptedInToShare} onCheckedChange={setHasOptedInToShare} />
+           <Switch checked={hasOptedInToShare} onCheckedChange={setHasOptedInToShare} />
+          </motion.div>
+
+          {/* Guardian blocked categories sharing */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.06 }}
+            className="bg-card rounded-xl p-4 border border-border/50 shadow-card flex items-center gap-4"
+          >
+            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+              <Shield className="w-5 h-5 text-primary" />
+            </div>
+            <div className="flex-1">
+              <h4 className="font-medium text-foreground text-sm">Let my guardian see what I'm blocking</h4>
+              <p className="text-xs text-muted-foreground">Share your focus setup — they can't change it</p>
+            </div>
+            <Switch checked={shareBlockedWithGuardian} onCheckedChange={handleShareBlockedChange} />
           </motion.div>
 
           {/* Teacher sharing */}
