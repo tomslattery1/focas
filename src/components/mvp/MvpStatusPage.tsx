@@ -2,22 +2,26 @@ import { MobileLayout } from '@/components/layout/MobileLayout';
 import { useApp } from '@/contexts/AppContext';
 import { useGamification } from '@/contexts/GamificationContext';
 import { useSessionTimer } from '@/hooks/useSessionTimer';
-import { Clock, BookOpen, Power, Shield, Flame, Target, Plus } from 'lucide-react';
+import { Clock, BookOpen, Power, Shield, Flame, Target, Plus, Key } from 'lucide-react';
 import { getBlockedCategories } from '@/pages/BlockedCategoriesPage';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { FocusDurationSelector } from '@/components/student/FocusDurationSelector';
+import { GuardianUnlockDialog } from '@/components/student/GuardianUnlockDialog';
 
-/**
- * MVP Home — Fócas Mode
- *
- * Core MVP:
- * ✅ Manual start / stop Fócas session
- * ✅ Green / Amber / Red status
- * ✅ Real-time focus timer & score
- * ✅ Current class
- */
+const DURATION_STORAGE_KEY = 'focas_focus_duration';
+
+function loadDuration(): number {
+  try {
+    const v = localStorage.getItem(DURATION_STORAGE_KEY);
+    return v ? Number(v) : 30;
+  } catch {
+    return 30;
+  }
+}
+
 const MvpStatusPage = () => {
   const {
     isFocasModeActive,
@@ -30,8 +34,44 @@ const MvpStatusPage = () => {
   const { todayCompliantMinutes, currentSessionMinutes, startSession, stopSession, isSessionActive } = useSessionTimer();
   const navigate = useNavigate();
   const [showNoCategoriesPrompt, setShowNoCategoriesPrompt] = useState(false);
+  const [focusDuration, setFocusDuration] = useState(loadDuration);
+  const [showUnlockDialog, setShowUnlockDialog] = useState(false);
 
-  // Compute elapsed school minutes today (used as denominator for focus score)
+  // Track remaining time
+  const [remainingSeconds, setRemainingSeconds] = useState(0);
+  const sessionStartRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    localStorage.setItem(DURATION_STORAGE_KEY, String(focusDuration));
+  }, [focusDuration]);
+
+  // Countdown timer when session is active
+  useEffect(() => {
+    if (isFocasModeActive && sessionStartRef.current) {
+      const targetMs = sessionStartRef.current + focusDuration * 60 * 1000;
+      const interval = setInterval(() => {
+        const remaining = Math.max(0, Math.ceil((targetMs - Date.now()) / 1000));
+        setRemainingSeconds(remaining);
+        if (remaining <= 0) {
+          clearInterval(interval);
+          // Auto-end session
+          endSession();
+          toast.success('Focus session complete! 🎉', {
+            description: `Great job staying focused for ${focusDuration} minutes.`,
+          });
+        }
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [isFocasModeActive, focusDuration]);
+
+  const formatCountdown = (totalSeconds: number) => {
+    const m = Math.floor(totalSeconds / 60);
+    const s = totalSeconds % 60;
+    return `${m}:${String(s).padStart(2, '0')}`;
+  };
+
+  // Compute elapsed school minutes today
   const getElapsedSchoolMinutes = (): number => {
     const now = new Date();
     const [startH, startM] = schoolSettings.schoolStartTime.split(':').map(Number);
@@ -39,10 +79,9 @@ const MvpStatusPage = () => {
     const schoolStartMin = startH * 60 + startM;
     const schoolEndMin = endH * 60 + endM;
     const currentMin = now.getHours() * 60 + now.getMinutes();
-    // Clamp to school window
     const effectiveStart = Math.max(schoolStartMin, Math.min(currentMin, schoolEndMin));
     const elapsed = effectiveStart - schoolStartMin;
-    return Math.max(1, elapsed); // at least 1 to avoid division by zero
+    return Math.max(1, elapsed);
   };
 
   const elapsedSchoolMinutes = getElapsedSchoolMinutes();
@@ -54,29 +93,43 @@ const MvpStatusPage = () => {
     return hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
   };
 
+  const endSession = () => {
+    setFocasModeActive(false);
+    stopSession();
+    completeSession(liveScore);
+    sessionStartRef.current = null;
+    setRemainingSeconds(0);
+  };
+
   const toggleSession = () => {
     const next = !isFocasModeActive;
 
-    // Block starting if no categories selected
     if (next && getBlockedCategories().length === 0) {
       setShowNoCategoriesPrompt(true);
       return;
     }
     setShowNoCategoriesPrompt(false);
 
-    setFocasModeActive(next);
     if (next) {
+      setFocasModeActive(true);
       startSession();
       updateFocusScore(liveScore);
+      sessionStartRef.current = Date.now();
+      setRemainingSeconds(focusDuration * 60);
+      toast.success('Fócas session started', {
+        description: `Focusing for ${focusDuration} minutes. Distracting apps are now blocked.`,
+      });
     } else {
-      stopSession();
-      completeSession(liveScore);
+      endSession();
+      toast.success('Fócas session ended', {
+        description: 'Your phone is unrestricted.',
+      });
     }
-    toast.success(next ? 'Fócas session started' : 'Fócas session ended', {
-      description: next
-        ? 'Distracting apps are now blocked.'
-        : 'Your phone is unrestricted.',
-    });
+  };
+
+  const handleGuardianUnlock = () => {
+    endSession();
+    setShowUnlockDialog(false);
   };
 
   return (
@@ -104,8 +157,17 @@ const MvpStatusPage = () => {
             } : {}}
             transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
           >
-            <span className="text-4xl font-bold text-foreground">{liveScore}%</span>
-            <span className="text-xs text-muted-foreground font-medium mt-1">Focus Score</span>
+            {isFocasModeActive ? (
+              <>
+                <span className="text-3xl font-bold text-foreground font-mono">{formatCountdown(remainingSeconds)}</span>
+                <span className="text-xs text-muted-foreground font-medium mt-1">remaining</span>
+              </>
+            ) : (
+              <>
+                <span className="text-4xl font-bold text-foreground">{liveScore}%</span>
+                <span className="text-xs text-muted-foreground font-medium mt-1">Focus Score</span>
+              </>
+            )}
           </motion.div>
 
           {/* Streak + Goal row */}
@@ -120,6 +182,11 @@ const MvpStatusPage = () => {
             </div>
           </div>
         </motion.div>
+
+        {/* Duration selector — only when session is NOT active */}
+        {!isFocasModeActive && (
+          <FocusDurationSelector selected={focusDuration} onChange={setFocusDuration} />
+        )}
 
         {/* Blocked categories — visible during active session */}
         {isFocasModeActive && (
@@ -166,7 +233,7 @@ const MvpStatusPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="mb-6"
+          className="mb-4"
         >
           <motion.button
             onClick={toggleSession}
@@ -181,6 +248,24 @@ const MvpStatusPage = () => {
             {isFocasModeActive ? 'End Fócas Session' : 'Start Fócas Session'}
           </motion.button>
         </motion.div>
+
+        {/* Guardian unlock button — only during active session */}
+        {isFocasModeActive && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="mb-6"
+          >
+            <button
+              onClick={() => setShowUnlockDialog(true)}
+              className="w-full py-3 px-4 rounded-xl text-sm font-medium text-muted-foreground bg-muted/50 border border-border/50 hover:bg-muted transition-colors flex items-center justify-center gap-2"
+            >
+              <Key className="w-4 h-4" />
+              Have a guardian unlock code?
+            </button>
+          </motion.div>
+        )}
 
         {/* Quick stats */}
         <motion.div
@@ -228,6 +313,12 @@ const MvpStatusPage = () => {
         </motion.div>
 
       </div>
+
+      <GuardianUnlockDialog
+        open={showUnlockDialog}
+        onOpenChange={setShowUnlockDialog}
+        onSuccess={handleGuardianUnlock}
+      />
     </MobileLayout>
   );
 };
