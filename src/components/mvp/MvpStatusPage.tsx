@@ -83,21 +83,29 @@ const MvpStatusPage = () => {
     return `${m}:${String(s).padStart(2, '0')}`;
   };
 
-  // Compute elapsed school minutes today
-  const getElapsedSchoolMinutes = (): number => {
+  // Calculate weekly focus hours toward goal
+  const weeklyFocusMinutes = useMemo(() => {
+    const history = loadDailyHistory();
     const now = new Date();
-    const [startH, startM] = schoolSettings.schoolStartTime.split(':').map(Number);
-    const [endH, endM] = schoolSettings.schoolEndTime.split(':').map(Number);
-    const schoolStartMin = startH * 60 + startM;
-    const schoolEndMin = endH * 60 + endM;
-    const currentMin = now.getHours() * 60 + now.getMinutes();
-    const effectiveStart = Math.max(schoolStartMin, Math.min(currentMin, schoolEndMin));
-    const elapsed = effectiveStart - schoolStartMin;
-    return Math.max(1, elapsed);
-  };
+    const dayOfWeek = now.getDay(); // 0=Sun
+    const mondayOffset = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    const monday = new Date(now);
+    monday.setDate(now.getDate() - mondayOffset);
+    monday.setHours(0, 0, 0, 0);
 
-  const elapsedSchoolMinutes = getElapsedSchoolMinutes();
-  const liveScore = Math.min(100, Math.round((todayCompliantMinutes / elapsedSchoolMinutes) * 100));
+    let total = 0;
+    for (const [dateStr, mins] of Object.entries(history)) {
+      const d = new Date(dateStr + 'T00:00:00');
+      if (d >= monday && d <= now) {
+        total += mins;
+      }
+    }
+    return total;
+  }, [todayCompliantMinutes]); // re-derive when today's minutes change
+
+  const weeklyFocusHours = (weeklyFocusMinutes + todayCompliantMinutes) / 60;
+  const targetHours = gamification.weeklyGoal.targetHours;
+  const liveScore = targetHours > 0 ? Math.min(100, Math.round((weeklyFocusHours / targetHours) * 100)) : 0;
 
   const formatTime = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
