@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 const STORAGE_KEY = 'focas_gamification';
 
 const defaultGoal: WeeklyGoal = {
-  targetPercentage: 80,
+  targetHours: 5,
   weekStart: new Date().toISOString(),
 };
 
@@ -24,7 +24,7 @@ interface GamificationContextType {
   state: GamificationState;
   completeSession: (scorePercent: number) => void;
   updateFocusScore: (score: number) => void;
-  setWeeklyGoal: (target: number) => void;
+  setWeeklyGoal: (targetHours: number) => void;
   resetGamification: () => void;
 }
 
@@ -35,12 +35,16 @@ function loadState(): GamificationState {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       const parsed = JSON.parse(saved);
-      // Merge with defaults to pick up new badges
       const mergedBadges = DEFAULT_BADGES.map(db => {
         const existing = parsed.badges?.find((b: Badge) => b.id === db.id);
         return existing ? { ...db, unlockedAt: existing.unlockedAt } : db;
       });
-      return { ...defaultState, ...parsed, badges: mergedBadges };
+      // Migrate old percentage-based goal to hours
+      const goal = parsed.weeklyGoal;
+      const weeklyGoal: WeeklyGoal = goal?.targetHours != null
+        ? goal
+        : { targetHours: 5, weekStart: goal?.weekStart || new Date().toISOString() };
+      return { ...defaultState, ...parsed, badges: mergedBadges, weeklyGoal };
     }
   } catch {}
   return defaultState;
@@ -59,7 +63,6 @@ export const GamificationProvider = ({ children }: { children: ReactNode }) => {
 
   const checkBadges = useCallback((updated: GamificationState): GamificationState => {
     const now = new Date().toISOString();
-    let newUnlocks = false;
     const badges = updated.badges.map(badge => {
       if (badge.unlockedAt) return badge;
       let earned = false;
@@ -78,7 +81,6 @@ export const GamificationProvider = ({ children }: { children: ReactNode }) => {
           break;
       }
       if (earned) {
-        newUnlocks = true;
         setTimeout(() => {
           toast.success(`${badge.icon} ${badge.nameIrish}!`, {
             description: badge.description,
@@ -106,7 +108,7 @@ export const GamificationProvider = ({ children }: { children: ReactNode }) => {
         } else if (!lastDate) {
           streak = 1;
         } else {
-          streak = 1; // streak broken
+          streak = 1;
         }
       }
 
@@ -130,16 +132,16 @@ export const GamificationProvider = ({ children }: { children: ReactNode }) => {
     });
   }, [checkBadges]);
 
-  const setWeeklyGoal = useCallback((target: number) => {
+  const setWeeklyGoal = useCallback((targetHours: number) => {
     setState(prev => ({
       ...prev,
       weeklyGoal: {
-        targetPercentage: target,
+        targetHours,
         weekStart: new Date().toISOString(),
       },
     }));
     toast.success('Goal updated!', {
-      description: `Your weekly focus target is now ${target}%.`,
+      description: `Your weekly focus target is now ${targetHours} hour${targetHours !== 1 ? 's' : ''}.`,
     });
   }, []);
 

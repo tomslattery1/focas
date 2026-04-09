@@ -14,7 +14,7 @@ export interface BadgeRequirement {
 }
 
 export interface WeeklyGoal {
-  targetPercentage: number;
+  targetHours: number;
   weekStart: string; // ISO date
 }
 
