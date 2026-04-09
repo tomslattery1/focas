@@ -14,6 +14,8 @@ import AchievementsPage from "./pages/AchievementsPage";
 import BlockedCategoriesPage from "./pages/BlockedCategoriesPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import TermsOfServicePage from "./pages/TermsOfServicePage";
+import GuardianDashboard from "./pages/GuardianDashboard";
+import GuardianSettingsPage from "./pages/GuardianSettingsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,6 +37,13 @@ const App = () => (
               <Route path="/achievements" element={<AchievementsPage />} />
               <Route path="/settings" element={<MvpSettingsPage />} />
               <Route path="/settings/blocked-categories" element={<BlockedCategoriesPage />} />
+
+              {/* Guardian */}
+              <Route path="/guardian" element={<GuardianDashboard />} />
+              <Route path="/guardian/unlock" element={<GuardianDashboard />} />
+              <Route path="/guardian/encourage" element={<GuardianDashboard />} />
+              <Route path="/guardian/activity" element={<GuardianDashboard />} />
+              <Route path="/guardian/settings" element={<GuardianSettingsPage />} />
 
               {/* Legal */}
               <Route path="/privacy" element={<PrivacyPolicyPage />} />
