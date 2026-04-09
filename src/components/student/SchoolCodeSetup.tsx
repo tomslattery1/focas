@@ -17,10 +17,11 @@ export interface ScheduleSlot {
   startTime: string;
   endTime: string;
   type: 'class' | 'break' | 'lunch';
-  label: string; // e.g. "Period 1", "Morning Break", "Lunch"
-  subject: string; // student-entered
+  label: string;
+  subject: string;
   teacher: string;
   room: string;
+  mergedIds?: string[]; // tracks original period IDs when periods are combined
 }
 
 const SCHOOL_TEMPLATES: Record<string, SchoolDayTemplate> = {
