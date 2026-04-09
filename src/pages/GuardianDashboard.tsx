@@ -6,6 +6,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useApp } from '@/contexts/AppContext';
 import { ComplianceStatus } from '@/types/app';
+import { getBlockedCategories } from '@/pages/BlockedCategoriesPage';
+import { Badge } from '@/components/ui/badge';
 import { ComplianceNotification, Notification } from '@/components/guardian/ComplianceNotification';
 import { GuardianNotificationBanner } from '@/components/guardian/GuardianNotificationBanner';
 import { EncouragementSender } from '@/components/guardian/EncouragementSender';
@@ -249,7 +251,23 @@ const ParentDashboard = () => {
                         </div>
                       </div>
 
-                      <div className="mt-4 pt-4 border-t flex items-center justify-end">
+                      {localStorage.getItem('focas_share_blocked_with_guardian') === 'true' && (
+                        <div className="mt-3 pt-3 border-t">
+                          <p className="text-xs text-muted-foreground mb-1.5">Blocking during sessions:</p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {getBlockedCategories().map((cat) => (
+                              <Badge key={cat} variant="secondary" className="text-xs font-normal">
+                                {cat}
+                              </Badge>
+                            ))}
+                            {getBlockedCategories().length === 0 && (
+                              <span className="text-xs text-muted-foreground italic">None selected</span>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="mt-3 pt-3 border-t flex items-center justify-end">
                         <p className="text-xs text-muted-foreground">
                           Last active: {formatLastActive(child.lastActive)}
                         </p>
