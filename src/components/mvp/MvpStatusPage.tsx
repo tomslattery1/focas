@@ -1,13 +1,13 @@
 import { MobileLayout } from '@/components/layout/MobileLayout';
 import { useApp } from '@/contexts/AppContext';
 import { useGamification } from '@/contexts/GamificationContext';
-import { useSessionTimer } from '@/hooks/useSessionTimer';
+import { useSessionTimer, loadDailyHistory } from '@/hooks/useSessionTimer';
 import { Clock, BookOpen, Power, Shield, Flame, Target, Plus, Key } from 'lucide-react';
 import { getBlockedCategories } from '@/pages/BlockedCategoriesPage';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { FocusDurationSelector } from '@/components/student/FocusDurationSelector';
 import { GuardianUnlockDialog } from '@/components/student/GuardianUnlockDialog';
 
