@@ -21,7 +21,6 @@ export interface ConsentChoices {
 
 const DataSharingConsent = ({ onConsent, onDecline }: DataSharingConsentProps) => {
   const [shareWithGuardian, setShareWithGuardian] = useState(false);
-  const [shareWithTeacher, setShareWithTeacher] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [error, setError] = useState('');
 
