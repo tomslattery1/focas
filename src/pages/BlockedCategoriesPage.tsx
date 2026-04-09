@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dialog';
 
 const STORAGE_KEY = 'focas_blocked_categories';
-const DEFAULT_CATEGORIES = ['Social Media', 'Games', 'Entertainment'];
+const DEFAULT_CATEGORIES = ['Social Media', 'Games'];
 const ALL_CATEGORIES = ['Social Media', 'Games', 'Entertainment', 'Shopping', 'News', 'Streaming'];
 
 export function getBlockedCategories(): string[] {
