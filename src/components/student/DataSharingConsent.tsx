@@ -30,7 +30,7 @@ const DataSharingConsent = ({ onConsent, onDecline }: DataSharingConsentProps) =
       return;
     }
     onConsent({
-      shareStatusWithTeachers: shareWithTeacher,
+      shareStatusWithTeachers: false,
       shareStatusWithGuardians: shareWithGuardian,
       allowEncouragementMessages: shareWithGuardian,
       acceptTermsAndPrivacy: true,
