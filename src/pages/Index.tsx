@@ -1,13 +1,12 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useApp } from '@/contexts/AppContext';
 import SplashScreen from './SplashScreen';
 import OnboardingScreen from './OnboardingScreen';
-import LoginScreen from './LoginScreen';
 import MvpStatusPage from '@/components/mvp/MvpStatusPage';
 import DataSharingConsent, { ConsentChoices } from '@/components/student/DataSharingConsent';
 import ScreenTimePermission from '@/components/student/ScreenTimePermission';
 import GuardianInvite from '@/components/student/GuardianInvite';
-import GuardianDashboard from './GuardianDashboard';
 import DemoRoleSelector from '@/components/demo/DemoRoleSelector';
 import { toast } from 'sonner';
 import { UserRole } from '@/types/app';
